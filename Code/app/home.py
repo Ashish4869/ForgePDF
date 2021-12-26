@@ -1,5 +1,5 @@
 from tkinter import *
-from app import login
+from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf
 from app.common import center
 
 class HomeWindow():
@@ -13,6 +13,31 @@ class HomeWindow():
 
         def btn_clicked():
             print("ButtonClicked")
+
+        def toPdfToWordPage():
+             # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the pdf to word window class
+            pdftoword.PdfToWordWindow()
+
+        def toPdfToExcelPage():
+             # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the pdf to excel window class
+            pdftoexcel.PdfToExcelWindow()
+
+        def toExcelToPdfPage():
+             # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the excel to pdf window class
+            exceltopdf.ExcelToPdfWindow()
+
+        def toWordToPdfPage():
+             # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the excel to pdf window class
+            wordtopdf.WordToPdfWindow()
+
         
 
         # Window config
@@ -67,7 +92,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = btn_clicked,
+            command = toPdfToWordPage,
             relief = "flat")
 
 
@@ -87,7 +112,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = btn_clicked,
+            command = toPdfToExcelPage,
             relief = "flat")
 
         # Pdf to excel button placement
@@ -209,7 +234,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = btn_clicked,
+            command = toWordToPdfPage,
             relief = "flat")
 
 
@@ -229,7 +254,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = btn_clicked,
+            command = toExcelToPdfPage,
             relief = "flat")
 
 
