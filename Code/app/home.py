@@ -1,5 +1,5 @@
 from tkinter import *
-from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf
+from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy
 from app.common import center
 
 class HomeWindow():
@@ -37,6 +37,18 @@ class HomeWindow():
             window.destroy()
             # call the excel to pdf window class
             wordtopdf.WordToPdfWindow()
+
+        def toSplitPdf():
+             # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the splitPdf window class
+            splitPdf.SplitPdfWIndow()
+
+        def toScrapy():
+             # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the scrapy window class
+            Scrapy.ScrapyWindow()
 
         
 
@@ -122,22 +134,22 @@ class HomeWindow():
             height = 129)
 
 
-        # Image for Make Pdf
-        MakePdfImage = PhotoImage(file = f"./images/home/MakePdf.png")
+        # Image for Scrap
+        ScrapyImage = PhotoImage(file = f"./images/home/ScrapyImage.png")
         
-        # Make pdf button config
-        MakePdfButton = Button(
-            image = MakePdfImage,
+        # Scrap button config
+        ScrapyButton = Button(
+            image = ScrapyImage,
             borderwidth = 0,
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = btn_clicked,
+            command = toScrapy,
             relief = "flat")
 
 
-        # Make pdf button placement
-        MakePdfButton.place(
+        # Scrap button placement
+        ScrapyButton.place(
             x = 710, y = 518,
             width = 158,
             height = 130)
@@ -173,7 +185,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = btn_clicked,
+            command = toSplitPdf,
             relief = "flat")
 
         # Split pdf  button placement
