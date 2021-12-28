@@ -1,7 +1,8 @@
 from tkinter import *
+from tkinter.messagebox import showinfo
 from app import login
 from app import home
-from app.common import center
+from app.common import center, executeQuery
 
 class SignUpWindow():
     def __init__(self):
@@ -13,8 +14,20 @@ class SignUpWindow():
             login.LogInWindow()
 
         def SubmitDetails():
-            #will implement the database part later
+            # TODO: Implement input validation
 
+            # storing the values from the entry fields
+            name = NameEntry.get()
+            email = EmailEntry.get()
+            phone = PhoneEntry.get()
+            password = PasswordEntry.get()
+
+            # creating a query to insert the user details into the database
+            query = "insert into users (name, email, phone, password) values('" + name + "','" + email + "','" + phone + "','" + password + "')"
+            executeQuery(query)
+
+            # TODO: Display status message (success/failure)
+            showinfo('Successfull','You have successfully registered an account!')
              # destroy the current window instance (SignUpWindow)
             window.destroy()
             # call the Home window class

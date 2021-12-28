@@ -1,4 +1,6 @@
 from tkinter import *
+from tkinter.messagebox import showinfo, WARNING
+import mysql.connector
 from app import signup
 from app import home
 from app.common import center
@@ -13,12 +15,33 @@ class LogInWindow():
             signup.SignUpWindow()
 
         def SubmitDetails():
-            #will implement the database part later
+            # TODO: Implement input validation
+            
+            # storing the values from the entry fields
+            name = NameEntry.get()
+            pasword = PasswordEntry.get()
+            # creating a mysql connection
+            mydb = mysql.connector.connect(host="localhost", user="root", password="mysql", database="forgepdf")
+            mycursor = mydb.cursor()
+            # getting all the user data from the database
+            mycursor.execute("select name, password from users where name='" + name + "'")
+            # selecting only the first row from the fetched data
+            result = mycursor.fetchone()
 
-             # destroy the current window instance (SignUpWindow)
-            window.destroy()
-            # call the Home window class
-            home.HomeWindow()
+            # checking if the 'name' exists in the database
+            if result == None:
+                showinfo('Error', 'Name not found.', icon=WARNING)
+            # checking if the 'password' matches the one in the database
+            elif pasword != result[1]:
+                showinfo('Error', 'Invalid Password!.', icon=WARNING)
+            # else, successfull login
+            else:
+                showinfo('Successfull', 'You have successfully logged in!')
+                 # destroy the current window instance (SignUpWindow)
+                window.destroy()
+                # call the Home window class
+                home.HomeWindow()
+            mydb.close()
         
         def btn_clicked():
             print("Button Clicked")
