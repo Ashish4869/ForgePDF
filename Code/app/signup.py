@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.messagebox import showinfo
+import mysql.connector
 from app import login
 from app import home
 from app.common import center, executeQuery
@@ -22,16 +23,33 @@ class SignUpWindow():
             phone = PhoneEntry.get()
             password = PasswordEntry.get()
 
+
+            # creating a query and checking if there exist a account before signing up
+            mydb = mysql.connector.connect(host="localhost", user="root", password="Ashishkishorekumar321", database="forgepdf")
+            mycursor = mydb.cursor()
+            # getting all the user data from the database
+            mycursor.execute("select name, password from users where name='" + name + "'")
+            # selecting only the first row from the fetched data
+            result = mycursor.fetchone()
+
+            
+              
             # creating a query to insert the user details into the database
             query = "insert into users (name, email, phone, password) values('" + name + "','" + email + "','" + phone + "','" + password + "')"
             executeQuery(query)
 
             # TODO: Display status message (success/failure)
-            showinfo('Successfull','You have successfully registered an account!')
-             # destroy the current window instance (SignUpWindow)
-            window.destroy()
-            # call the Home window class
-            home.HomeWindow()
+            if result == None:
+                showinfo('Successfull','You have successfully registered an account!')
+                # destroy the current window instance (SignUpWindow)
+                window.destroy()
+                # call the Home window class
+                home.HomeWindow()
+
+            elif result != None:
+                showinfo("ERROR" , "A user with this name already exist, please choose a new one!")
+
+            
 
         def btn_clicked():
             print("Button Clicked")

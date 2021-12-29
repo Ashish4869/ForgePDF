@@ -19,6 +19,7 @@ class PdfToWordWindow():
         window = Tk()
 
         window.geometry("1280x720")
+        center(window)
         window.configure(bg = "#0b132b")
 
         #Creating Canvas

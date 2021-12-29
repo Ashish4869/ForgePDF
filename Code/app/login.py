@@ -7,7 +7,7 @@ from app.common import center
 
 class LogInWindow():
     def __init__(self):
-        # Button functions
+        # Button functions 
         def toSignUpPage():
             # Destroy the current window instance (LogInWindow)
             window.destroy()
@@ -21,7 +21,7 @@ class LogInWindow():
             name = NameEntry.get()
             pasword = PasswordEntry.get()
             # creating a mysql connection
-            mydb = mysql.connector.connect(host="localhost", user="root", password="mysql", database="forgepdf")
+            mydb = mysql.connector.connect(host="localhost", user="root", password="Ashishkishorekumar321", database="forgepdf")
             mycursor = mydb.cursor()
             # getting all the user data from the database
             mycursor.execute("select name, password from users where name='" + name + "'")

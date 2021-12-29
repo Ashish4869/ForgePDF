@@ -1,5 +1,5 @@
 from tkinter import *
-from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy
+from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf
 from app.common import center
 
 class HomeWindow():
@@ -50,12 +50,30 @@ class HomeWindow():
             # call the scrapy window class
             Scrapy.ScrapyWindow()
 
+        def toEmailPdf():
+            # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the email pdf window class
+            emailpdf.EmailPdfWindow()
+
+        #Testing conditional rendering
+        def showfile1():
+            File1Button.pack()
+
+            File1Button.place(
+            x = 1057, y = 207,
+            width = 156,
+            height = 132)
+            
+
+
         
 
         # Window config
         window = Tk()
         window.geometry("1280x720")
         window.title('Home Page')
+        center(window)
         window.configure(bg = "#0b132b")
 
         # Creating a Canvas
@@ -165,7 +183,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = btn_clicked,
+            command = showfile1,
             relief = "flat")
 
         # MergePdf button placement
@@ -226,7 +244,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = btn_clicked,
+            command = toEmailPdf,
             relief = "flat")
 
 
@@ -294,6 +312,10 @@ class HomeWindow():
             x = 1057, y = 207,
             width = 156,
             height = 132)
+
+        #Putting the Element in pack and then immeadiatley hiding it 
+        File1Button.pack()
+        File1Button.pack_forget()
 
         # Image for second most recent file in database
         File2Image = PhotoImage(file = f"./images/home/File2.png")

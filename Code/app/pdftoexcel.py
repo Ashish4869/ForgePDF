@@ -19,6 +19,7 @@ class PdfToExcelWindow():
         window = Tk()
 
         window.geometry("1280x720")
+        center(window)
         window.configure(bg = "#0b132b")
 
         #Creating a Canvas

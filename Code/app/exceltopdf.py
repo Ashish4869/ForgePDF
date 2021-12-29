@@ -20,6 +20,10 @@ class ExcelToPdfWindow():
 
         window.geometry("1280x720")
         window.configure(bg = "#0b132b")
+        center(window)
+
+
+        #Canvas Config
         canvas = Canvas(
             window,
             bg = "#0b132b",
