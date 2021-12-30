@@ -1,7 +1,9 @@
 from tkinter import *
-from app import login
-from app import home
+from tkinter.messagebox import showinfo, WARNING
+from app import login , home
+from app.Functionality import scrapping
 from app.common import center
+import threading
 
 class ScrapyWindow  ():
     def __init__(self):
@@ -12,8 +14,43 @@ class ScrapyWindow  ():
             # call the login up window class
             home.HomeWindow()
 
+        def ScrapIt():
+            #getting the input from the text box
+            itemToScrap = InputEntry.get()
+            
+            #this doesnt work cause threads are messing things up
+            #Checking if the input box in empty , if so prevent from scrapping
+            # if itemToScrap.strip() == '':
+            #     showinfo('Error' , 'Something went wrong')
+            #     home.HomeWindow()
+            #     window.destroy()
+
+            #call the scrapping function and scrap the details
+            scrapping.main(itemToScrap)
+
         def btn_clicked():
             print("ButtonClicked")
+
+        #Shows the loading label when the button is pressed
+        def showLoading():
+            # ScrapItButton.pack_forget()
+            ScrapItLoadingLabel.pack()
+            ScrapItLoadingLabel.place(  
+            x = 362, y = 557,
+            width = 536,
+            height = 100)
+        
+        #shows the done label 5 seconds after the button is pressed
+        def showDone():
+            # ScrapItLoadingButton.pack_forget()
+            ScrapItDoneLabel.pack()
+            ScrapItDoneLabel.place(  
+            x = 362, y = 557,
+            width = 536,
+            height = 100)
+
+            
+
 
 
         #Window config
@@ -50,13 +87,56 @@ class ScrapyWindow  ():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = btn_clicked,
+
+            #creating 3 threads to run the scraping , and show the 2 labels at some fixed time
+            command= lambda: [threading.Timer(0.1, ScrapIt).start(), threading.Timer(0.1, showLoading).start(), threading.Timer(5.0, showDone).start()],
             relief = "flat")
 
         ScrapItButton.place(
             x = 362, y = 557,
             width = 536,
             height = 100)
+
+
+        
+
+        #Loading Image Config
+        ScrapItLoadingImage = PhotoImage(file = f"./images/Scrapy/LoadingImage.png")
+        ScrapItLoadingLabel = Label(
+            image = ScrapItLoadingImage,
+            borderwidth = 0,
+            highlightthickness = 0,
+            background="#0B132B",
+            activebackground="#0B132B",
+            relief = "flat")
+   
+        #packing the label and hiding it 
+        ScrapItLoadingLabel.pack()
+        ScrapItLoadingLabel.pack_forget()
+
+
+
+        #Done Image Config
+        ScrapItDoneImage = PhotoImage(file = f"./images/Scrapy/DoneImage.png")
+        ScrapItDoneLabel = Label(
+            image = ScrapItDoneImage,
+            borderwidth = 0,
+            highlightthickness = 0,
+            background="#0B132B",
+            activebackground="#0B132B",
+            relief = "flat")
+
+
+        ScrapItDoneLabel.place(  
+            x = 362, y = 557,
+            width = 536,
+            height = 100)
+        
+        #packing the label and hiding it 
+        ScrapItDoneLabel.pack()
+        ScrapItDoneLabel.pack_forget()
+
+
 
         #back button config
         BackImage = PhotoImage(file = f"./images/Scrapy/Back.png")
@@ -73,6 +153,8 @@ class ScrapyWindow  ():
             x = 17, y = 21,
             width = 139,
             height = 58)
+
+
 
         #Input entry config
         InputEntryImage = PhotoImage(file = f"./images/Scrapy/TextBox.png")
