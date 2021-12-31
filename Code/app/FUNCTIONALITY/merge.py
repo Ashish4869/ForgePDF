@@ -30,6 +30,3 @@ def merge(pdfList):
     newFile.close()
     return "Files Got Merged!!"
 
-
-# calling merge pdf function the pdf names are in list
-print(merge(['mod1.pdf', 'mod2.pdf', 'mod2.pdf']))
