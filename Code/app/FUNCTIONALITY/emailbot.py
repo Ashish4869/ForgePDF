@@ -5,10 +5,6 @@ import csv,os
 
 def emailbot(toaddress , attachmentPath):#used to send email
     #converting relative path of the attachment to absolute path
-<<<<<<< HEAD
-=======
-    # file=os.path.abspath(r'assignment1\assignment1b.py')
->>>>>>> 970f13cbc077cbed0f399c1e0b3ab91c2789e429
     web = webdriver.Chrome()
     web.maximize_window()#make the window full screen
 
@@ -44,15 +40,10 @@ def emailbot(toaddress , attachmentPath):#used to send email
     subject.send_keys('FORGEPDF')    
 
     #getting the attachment from the path variable and attaching it to the email 
-<<<<<<< HEAD
     attachment=web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[4]/div/input')
     attachment.send_keys(attachmentPath)
 
     print("added attachment")
-=======
-    # attachment=web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[4]/div/input')
-    # attachment.send_keys(file)
->>>>>>> 970f13cbc077cbed0f399c1e0b3ab91c2789e429
     
     web.implicitly_wait(30)
 
