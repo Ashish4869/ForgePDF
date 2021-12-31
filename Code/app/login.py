@@ -4,6 +4,7 @@ import mysql.connector
 from app import signup
 from app import home
 from app.common import center
+import os
 
 class LogInWindow():
     def __init__(self):
@@ -21,7 +22,7 @@ class LogInWindow():
             name = NameEntry.get()
             pasword = PasswordEntry.get()
             # creating a mysql connection
-            mydb = mysql.connector.connect(host="localhost", user="root", password="Ashishkishorekumar321", database="forgepdf")
+            mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
             mycursor = mydb.cursor()
             # getting all the user data from the database
             mycursor.execute("select name, password from users where name='" + name + "'")

@@ -2,9 +2,9 @@ import csv
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from app import Scrapy
+import os
 # test1
 from selenium.webdriver.chrome.options import Options
-chrome_driver_path = "D:\\Users\\ashis\\Desktop\\chromedriver\\chromedriver.exe"
 # test2
 options = Options()
 options.add_argument("--headless")
@@ -50,7 +50,7 @@ def main(search_term):
     product_list = []
     url = get_url(search_term)  # function call
     driver = webdriver.Chrome(
-        executable_path=chrome_driver_path, options=options)
+        executable_path=os.getenv('CHROME_DRIVER_PATH'), options=options)
     print("Generating CSV File .....")
 
     for page in range(1, 3):

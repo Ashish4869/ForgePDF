@@ -4,7 +4,7 @@ import mysql.connector
 from app import login
 from app import home
 from app.common import center, executeQuery
-
+import os
 class SignUpWindow():
     def __init__(self):
         # Button functions
@@ -25,7 +25,7 @@ class SignUpWindow():
 
 
             # creating a query and checking if there exist a account before signing up
-            mydb = mysql.connector.connect(host="localhost", user="root", password="Ashishkishorekumar321", database="forgepdf")
+            mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
             mycursor = mydb.cursor()
             # getting all the user data from the database
             mycursor.execute("select name, password from users where name='" + name + "'")

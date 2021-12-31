@@ -1,10 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import csv,os.path
+import csv,os
 
 
 def emailbot(toaddress , attachmentPath):#used to send email
     #converting relative path of the attachment to absolute path
+<<<<<<< HEAD
+=======
+    # file=os.path.abspath(r'assignment1\assignment1b.py')
+>>>>>>> 970f13cbc077cbed0f399c1e0b3ab91c2789e429
     web = webdriver.Chrome()
     web.maximize_window()#make the window full screen
 
@@ -13,14 +17,14 @@ def emailbot(toaddress , attachmentPath):#used to send email
     
     #getting the email address textbox and inserting the email address in it
     email=web.find_element_by_xpath('/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div/div[1]/div/div[1]/input')
-    email.send_keys('adpproject69420@gmail.com'+ Keys.ENTER)    
+    email.send_keys(os.getenv('SELENIUM_EMAIL')+ Keys.ENTER)    
     
     #waiting for the password page to load
     web.implicitly_wait(5)
 
     #getting the password textbox and inserting the password in it
     pwd=web.find_element_by_xpath('/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div[1]/div/div/div/div/div[1]/div/div[1]/input')
-    pwd.send_keys('project@adp69420'+ Keys.ENTER)  
+    pwd.send_keys(os.getenv('SELENIUM_PASSWORD')+ Keys.ENTER)  
 
     #waiting for the page to load
     web.implicitly_wait(50)
@@ -40,10 +44,15 @@ def emailbot(toaddress , attachmentPath):#used to send email
     subject.send_keys('FORGEPDF')    
 
     #getting the attachment from the path variable and attaching it to the email 
+<<<<<<< HEAD
     attachment=web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[4]/div/input')
     attachment.send_keys(attachmentPath)
 
     print("added attachment")
+=======
+    # attachment=web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[4]/div/input')
+    # attachment.send_keys(file)
+>>>>>>> 970f13cbc077cbed0f399c1e0b3ab91c2789e429
     
     web.implicitly_wait(30)
 
