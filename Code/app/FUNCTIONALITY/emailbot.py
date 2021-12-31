@@ -1,32 +1,74 @@
-from selenium.webdriver.common.by import By
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.keys import Keys
+import csv,os.path
 
-def emailbot():#used to send email
-    
+
+def emailbot(toaddress):#used to send email
+    #converting relative path of the attachment to absolute path
+    file=os.path.abspath(r'assignment1\assignment1b.py')
     web = webdriver.Chrome()
-    web.maximize_window()
+    web.maximize_window()#make the window full screen
+
+    #opening the gmail login page in chrome
     web.get('https://accounts.google.com/signin/v2/identifier?passive=1209600&continue=https%3A%2F%2Faccounts.google.com%2Fb%2F0%2FAddMailService&followup=https%3A%2F%2Faccounts.google.com%2Fb%2F0%2FAddMailService&flowName=GlifWebSignIn&flowEntry=ServiceLogin')
+    
+    #getting the email address textbox and inserting the email address in it
     email=web.find_element_by_xpath('/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div/div[1]/div/div[1]/input')
-    email.send_keys('adpproject69420@gmail.com')
-    web.find_element_by_xpath('/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/div[1]/div/div/button').click()
+    email.send_keys('adpproject69420@gmail.com'+ Keys.ENTER)    
+    
+    #waiting for the password page to load
     web.implicitly_wait(5)
+
+    #getting the password textbox and inserting the password in it
     pwd=web.find_element_by_xpath('/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div[1]/div/div/div/div/div[1]/div/div[1]/input')
-    pwd.send_keys('project@adp69420')
-    web.find_element_by_xpath('//*[@id="passwordNext"]/div/button').click()
+    pwd.send_keys('project@adp69420'+ Keys.ENTER)  
+
+    #waiting for the page to load
     web.implicitly_wait(50)
+
+    #pressing the compose button to create a new email
     web.find_element_by_xpath('/html/body/div[7]/div[3]/div/div[2]/div[1]/div[1]/div[1]/div/div/div/div[1]/div/div').click()
+    
+    web.implicitly_wait(30)
+    
+    #getting the  to textbox and inserting the to email address in it
     toadd=web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/form/div[1]/table/tbody/tr[1]/td[2]/div/div/textarea')
-    toadd.send_keys('adpproject69420@gmail.com')
-    web.implicitly_wait(15)
+    toadd.send_keys(toaddress)
+    
+
+    #getting the subject textbox and inserting the subject in it
     subject=web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/form/div[3]/div/input')
     subject.send_keys('FORGEPDF')    
+
+    #getting the attachment from the path variable and attaching it to the email 
     attachment=web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[4]/div/input')
-    attachment.send_keys('C:\\Users\\avina\\AppData\\Local\\Programs\\Python\\Python39\\textbook (2).pdf')
-    web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[1]/div/div[2]/div[1]').click()  
+    attachment.send_keys(file)
+    
     web.implicitly_wait(30)
+
+    #finding the send button and clicking it to send the email
+    web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[1]/div/div[2]/div[1]').click()  
+    
+    #waiting for the message sent popup
+    web.implicitly_wait(30)
+
+    #checking for the message sent popup
     web.find_element_by_xpath('/html/body/div[7]/div[3]/div/div[1]/div[4]/div[1]/div/div[3]/div/div/div[2]/span/span[2]/span[2]')
+    
+    #clicking on the user dp
     web.find_element_by_xpath('/html/body/div[7]/div[3]/div/div[1]/div[3]/header/div[2]/div[3]/div[1]/div[2]/div/a').click()
+   
+    #clicking on the signout button
     web.find_element_by_xpath('/html/body/div[7]/div[3]/div/div[1]/div[3]/header/div[2]/div[4]/div[4]/a').click()
-emailbot()
+
+
+def csvToStr():#function to extract email addresses from a csv file
+    address =''
+    file= open('data.csv')
+    eaddr=list(csv.reader(file))
+    for i in range(len(eaddr)+1):
+        address+=eaddr[0][i]+','
+    # return address
+    emailbot(address)
+csvToStr()
 
