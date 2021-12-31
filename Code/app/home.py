@@ -1,5 +1,6 @@
 from tkinter import *
-from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf
+from tkinter import filedialog
+from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf,mergepdf
 from app.common import center
 
 class HomeWindow():
@@ -56,14 +57,23 @@ class HomeWindow():
             # call the email pdf window class
             emailpdf.EmailPdfWindow()
 
-        #Testing conditional rendering
-        def showfile1():
-            File1Button.pack()
+        def toMergerPdf():
+            # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the email pdf window class
+            mergepdf.MergePdfWindow()
 
-            File1Button.place(
-            x = 1057, y = 207,
-            width = 156,
-            height = 132)
+        #Testing conditional rendering and file open
+        # def showfile1():
+        #     filename = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
+        #     print(filename)
+
+        #     File1Button.pack()
+
+        #     File1Button.place(
+        #     x = 1057, y = 207,
+        #     width = 156,
+        #     height = 132)
             
 
 
@@ -183,7 +193,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = showfile1,
+            command = toMergerPdf,
             relief = "flat")
 
         # MergePdf button placement
