@@ -3,9 +3,8 @@ from selenium.webdriver.common.keys import Keys
 import csv,os.path
 
 
-def emailbot(toaddress):#used to send email
+def emailbot(toaddress , attachmentPath):#used to send email
     #converting relative path of the attachment to absolute path
-    file=os.path.abspath(r'assignment1\assignment1b.py')
     web = webdriver.Chrome()
     web.maximize_window()#make the window full screen
 
@@ -42,7 +41,9 @@ def emailbot(toaddress):#used to send email
 
     #getting the attachment from the path variable and attaching it to the email 
     attachment=web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[4]/div/input')
-    attachment.send_keys(file)
+    attachment.send_keys(attachmentPath)
+
+    print("added attachment")
     
     web.implicitly_wait(30)
 
@@ -62,13 +63,16 @@ def emailbot(toaddress):#used to send email
     web.find_element_by_xpath('/html/body/div[7]/div[3]/div/div[1]/div[3]/header/div[2]/div[4]/div[4]/a').click()
 
 
-def csvToStr():#function to extract email addresses from a csv file
+def csvToStr(adrresses ,attachmentPath):#function to extract email addresses from a csv file
     address =''
-    file= open('data.csv')
+    file= open(adrresses)
     eaddr=list(csv.reader(file))
     for i in range(len(eaddr)+1):
         address+=eaddr[0][i]+','
     # return address
-    emailbot(address)
-csvToStr()
+
+    print(address , attachmentPath)
+    emailbot(address , attachmentPath)
+
+# csvToStr('addresss.csv', 'D:/Users/ashis/Desktop/Terror Bull/Miscellanous/Victor_BB_Guide 1_4.pdf')
 

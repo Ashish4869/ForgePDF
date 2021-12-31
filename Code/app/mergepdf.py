@@ -250,7 +250,7 @@ class MergePdfWindow():
             font = 20,
             fg= "#5BC0BE",
             justify=CENTER,
-            insertbackground= "#5BC0BE",
+            insertbackground= "#1C2541",
             highlightthickness = 0)
 
         Pdf1name.place(
@@ -272,7 +272,7 @@ class MergePdfWindow():
             font = 20,
             fg= "#5BC0BE",
             justify=CENTER,
-            insertbackground= "#5BC0BE",
+            insertbackground= "#1C2541",
             highlightthickness = 0)
 
         Pdf2name.place(
@@ -294,7 +294,7 @@ class MergePdfWindow():
             font = 20,
             fg= "#5BC0BE",
             justify=CENTER,
-            insertbackground= "#5BC0BE",
+            insertbackground= "#1C2541",
             highlightthickness = 0)
 
         Pdf3name.place(
