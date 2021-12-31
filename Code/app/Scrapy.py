@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.messagebox import showinfo, WARNING
 from app import login , home
-from app.Functionality import scrapping
+from app.FUNCTIONALITY import scrapping
 from app.common import center
 import threading
 

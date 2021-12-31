@@ -2,6 +2,7 @@
 # across the application
 
 import mysql.connector
+import os
 
 # This exportable function is used to display 
 # the window at the center of the page
@@ -20,7 +21,7 @@ def executeQuery(query):
     # mydb = mysql.connector.connect(host="localhost",user="root",password="mysql",database="forgepdf")
 
     #Changes required to make it work in Ashish's PC
-    mydb = mysql.connector.connect(host="localhost",user="root",password="Ashishkishorekumar321",database="forgepdf")
+    mydb = mysql.connector.connect(host=os.getenv('HOST'),user=os.getenv('USER'),password=os.getenv('PASSWORD'),database="forgepdf")
     mycursor=mydb.cursor()
     mycursor.execute(query)
     mydb.commit()

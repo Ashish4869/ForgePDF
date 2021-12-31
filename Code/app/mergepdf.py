@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter.messagebox import showinfo, WARNING
-from app.Functionality import merge
+from app.FUNCTIONALITY import merge
 from app import login
 from app import home
 from app.common import center
@@ -32,7 +32,7 @@ class MergePdfWindow():
 
             #opens the file box , gets the abs path of the file and appends in list
             if canget == True:    
-                fileaddress = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
+                fileaddress = filedialog.askopenfilename(initialdir= os.getenv('MERGE_INITIAL_DIR'), title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
                 pdfstomerge.append(fileaddress)
                 filename = os.path.basename(fileaddress)
                 print(filename)

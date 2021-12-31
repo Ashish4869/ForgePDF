@@ -1,0 +1,6 @@
+# ignores below mentioned files to not be pushed to github
+*.pdf
+*.csv
+.env
+__pycache__
+*.pyc
