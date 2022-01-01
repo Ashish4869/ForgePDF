@@ -1,10 +1,17 @@
 from tkinter import *
 from tkinter import filedialog
+import mysql.connector
 from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf,mergepdf
+from app.User import userDetails
 from app.common import center
+import os
 
 class HomeWindow():
     def __init__(self):
+
+        #variables that holds current UID
+        uid = []
+
         #Button Functions
         def toLoginPage():
             # destroy the current window instance (LogInWindow)
@@ -304,66 +311,174 @@ class HomeWindow():
             width = 159,
             height = 130)
 
-        # Image for most recent file in database
-        File1Image = PhotoImage(file = f"./images/home/File1.png")
+
+        uid.append(userDetails.getUID())
+        # creating a mysql connection
+        mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
+        mycursor = mydb.cursor()
+        # getting all the user data from the database
+        mycursor.execute("select file_address from files where user_id='" + str(uid[0]) + "' order by file_id desc")
+        # selecting only the first row from the fetched data
+        result = mycursor.fetchall()
+        print(result)
+
+
+
+
+
+
+
+        if len(result) > 0:
+        # # Image for most recent Pdf in database
+            Pdf1IconImage = PhotoImage(file = f"./images/home/Pdf1Icon.png")
         
-        # file1 button config
-        File1Button = Button(
-            image = File1Image,
-            borderwidth = 0,
-            highlightthickness = 0,
-            background="#1C2541",
-            activebackground="#1C2541",
-            command = btn_clicked,
-            relief = "flat")
+            Pdf1IconLabel = Button(
+                image = Pdf1IconImage,
+                borderwidth = 0,
+                highlightthickness = 0,
+                background="#1C2541",
+                activebackground="#1C2541",
+                command = btn_clicked,
+                relief = "flat")
 
-        # file1 button placement
-        File1Button.place(
-            x = 1057, y = 207,
-            width = 156,
-            height = 132)
 
-        #Putting the Element in pack and then immeadiatley hiding it 
-        File1Button.pack()
-        File1Button.pack_forget()
+            Pdf1IconLabel.place(
+                x = 1057, y = 540,
+                width = 156,
+                height = 126)
 
-        # Image for second most recent file in database
-        File2Image = PhotoImage(file = f"./images/home/File2.png")
+            
+            #PDF1 name box
+            Pdf1TextBoxImage = PhotoImage(file = f"./images/home/TextBox1.png")
+            Pdf1TextBox = canvas.create_image(
+                1135.0, 648.0,
+                image = Pdf1TextBoxImage)
+
+            Pdf1Entry = Entry(
+                bd = 0,
+                bg = "#1c2541",
+                font = 20,
+                fg= "#5BC0BE",
+                justify=CENTER,
+                insertbackground= "#1C2541",
+                highlightthickness = 0)
+
+            Pdf1Entry.place(
+                x = 1057, y = 633,
+                width = 156,
+                height = 28)
+
+            Pdf1Entry.insert('0' , os.path.basename(result[0][0]))
+            Pdf1Entry.bind("<Key>", lambda e: "break")
+
         
-        # File2 button config
-        File2Button = Button(
-            image = File2Image,
-            borderwidth = 0,
-            highlightthickness = 0,
-            background="#1C2541",
-            activebackground="#1C2541",
-            command = btn_clicked,
-            relief = "flat")
+        if len(result) > 1:
+        # # Image for 2nd most recent Pdf in database
+            Pdf2IconImage = PhotoImage(file = f"./images/home/Pdf2Icon.png")
+            
+            Pdf2IconLabel = Button(
+                image = Pdf2IconImage,
+                borderwidth = 0,
+                highlightthickness = 0,
+                background="#1C2541",
+                activebackground="#1C2541",
+                command = btn_clicked,
+                relief = "flat")
 
-        # file2 button placement
-        File2Button.place(
-            x = 1057, y = 373,
-            width = 156,
-            height = 132)
+            Pdf2IconLabel.place(
+                x = 1057, y = 374,
+                width = 156,
+                height = 126)
 
-        # Image for third most recent file in database
-        File3Image = PhotoImage(file = f"./images/home/File3.png")
+            #PDF2 name box
+            Pdf2TextBoxImage = PhotoImage(file = f"./images/home/TextBox2.png")
+            Pdf2TextBox = canvas.create_image(
+                1135.0, 648.0,
+                image = Pdf2TextBoxImage)
+
+            Pdf2Entry = Entry(
+                bd = 0,
+                bg = "#1c2541",
+                font = 20,
+                fg= "#5BC0BE",
+                justify=CENTER,
+                insertbackground= "#1C2541",
+                highlightthickness = 0)
+
+            Pdf2Entry.place(
+                x = 1057, y = 467,
+                width = 156,
+                height = 28)
+
+            Pdf2Entry.insert('0' , os.path.basename(result[1][0]))
+            Pdf2Entry.bind("<Key>", lambda e: "break")
+
+            
+
+        if len(result) > 2:
+        # # Image for 3rd most recent Pdf in database
+            Pdf3IconImage = PhotoImage(file = f"./images/home/Pdf3Icon.png")
+            
+            Pdf3IconLabel = Button(
+                image = Pdf3IconImage,
+                borderwidth = 0,
+                highlightthickness = 0,
+                background="#1C2541",
+                activebackground="#1C2541",
+                command = btn_clicked,
+                relief = "flat")
+
+
+            Pdf3IconLabel.place(
+                x = 1057, y = 208,
+                width = 156,
+                height = 126)
+
+            #PDF3 name box
+            Pdf3TextBoxImage = PhotoImage(file = f"./images/home/TextBox3.png")
+            Pdf2TextBox = canvas.create_image(
+                1135.0, 648.0,
+                image = Pdf3TextBoxImage)
+
+            Pdf3Entry = Entry(
+                bd = 0,
+                bg = "#1c2541",
+                font = 20,
+                fg= "#5BC0BE",
+                justify=CENTER,
+                insertbackground= "#1C2541",
+                highlightthickness = 0)
+
+            Pdf3Entry.place(
+                x = 1057, y = 301,
+                width = 156,
+                height = 28)
+
+            Pdf3Entry.insert('0' , os.path.basename(result[2][0]))
+            Pdf3Entry.bind("<Key>", lambda e: "break")
+
+
+
+        if len(result) == 0:
+            # Image for 3rd most recent Pdf in database
+            NotFoundImage = PhotoImage(file = f"./images/home/notFound.png")
+            
+            NotFoundLabel = Button(
+                image = NotFoundImage,
+                borderwidth = 0,
+                highlightthickness = 0,
+                background="#1C2541",
+                activebackground="#1C2541",
+                command = btn_clicked,
+                relief = "flat")
+
+
+            NotFoundLabel.place(
+                x = 1042, y = 250,
+                width = 176,
+                height = 231)
+
         
-        # File3 button config
-        File3Button = Button(
-            image = File3Image,
-            borderwidth = 0,
-            highlightthickness = 0,
-            background="#1C2541",
-            activebackground="#1C2541",
-            command = btn_clicked,
-            relief = "flat")
-
-        # file3 button placement
-        File3Button.place(
-            x = 1057, y = 539,
-            width = 156,
-            height = 132)
 
         window.resizable(False, False)
         window.mainloop()

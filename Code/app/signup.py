@@ -3,6 +3,7 @@ from tkinter.messagebox import showinfo
 import mysql.connector
 from app import login
 from app import home
+from app.User import userDetails
 from app.common import center, executeQuery
 import os
 class SignUpWindow():
@@ -41,6 +42,8 @@ class SignUpWindow():
             # TODO: Display status message (success/failure)
             if result == None:
                 showinfo('Successfull','You have successfully registered an account!')
+
+                userDetails.setUID('')
                 # destroy the current window instance (SignUpWindow)
                 window.destroy()
                 # call the Home window class

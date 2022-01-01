@@ -3,6 +3,7 @@ from tkinter.messagebox import showinfo, WARNING
 import mysql.connector
 from app import signup
 from app import home
+from app.User import userDetails
 from app.common import center
 import os
 
@@ -25,9 +26,11 @@ class LogInWindow():
             mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
             mycursor = mydb.cursor()
             # getting all the user data from the database
-            mycursor.execute("select name, password from users where name='" + name + "'")
+            mycursor.execute("select name, password, user_id from users where name='" + name + "'")
             # selecting only the first row from the fetched data
             result = mycursor.fetchone()
+            
+
 
             # checking if the 'name' exists in the database
             if result == None:
@@ -38,6 +41,11 @@ class LogInWindow():
             # else, successfull login
             else:
                 showinfo('Successfull', 'You have successfully logged in!')
+
+                #Stores the UID in a py file
+                userDetails.setUID(result[2])
+                print(result)
+
                  # destroy the current window instance (SignUpWindow)
                 window.destroy()
                 # call the Home window class
