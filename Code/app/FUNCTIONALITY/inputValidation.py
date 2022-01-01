@@ -51,7 +51,7 @@ def signupVal(name, email, phone, password):
 
 
 
-def toaddrrValid(toaddress):  # function tto validate the input from send email page
+def emailVal(toaddress):  # function tto validate the input from send email page
 
     # re to check if the to address is valid or not
     emailRe = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
@@ -63,10 +63,10 @@ def toaddrrValid(toaddress):  # function tto validate the input from send email 
         return False
 
 
-# toaddrrValid('4s019cc@sjec.ac.in')
+# emailValid('4s019cc@sjec.ac.in')
 
 
-input validation for login
+#input validation for login
 def loginVal(name, password):
     nameRe = re.compile(r'([a-z A-Z]{1,})(\s[a-z A-Z]{1,})*')
     passwordRe = re.compile(r'.{8,20}')
@@ -84,8 +84,6 @@ def loginVal(name, password):
         return True
 
 # input validation for scrappy
-
-
 def scrappyVal(product_name):
     product_name = product_name.strip()
     productRe = re.compile(r'[A-Za-z0-9-]')
@@ -101,6 +99,13 @@ def scrappyVal(product_name):
     else:
         return True
 
+scrappyVal("inch tv 20")
+loginVal('Adithya K Shetty', 'avigay4')
 
-#scrappyVal("inch tv 20")
-#loginVal('Adithya K Shetty', 'avigay4')
+def splitVal(start, end):#function to check whether the string given is containing only numbers
+    if start.isdecimal()==True and end.isdecimal()==True:
+        return True
+    else:
+        return False
+
+# print(splitVal(' ','9'))

@@ -1,6 +1,6 @@
 import PyPDF2,os.path   
 
-def spliter(start,end , file):# funtion to split
+def spliter(start,end, file):# funtion to split
 
 
     #opening the input and output pdf files
