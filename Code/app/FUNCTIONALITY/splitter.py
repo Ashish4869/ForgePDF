@@ -1,9 +1,7 @@
 import PyPDF2,os.path   
 
-def spliter(start,end):# funtion to split
+def spliter(start,end , file):# funtion to split
 
-    #to convert relative path to absolute path
-    file=os.path.abspath(r'2.pdf')
 
     #opening the input and output pdf files
     pdfFile=open(file,'rb')
@@ -25,4 +23,4 @@ def spliter(start,end):# funtion to split
     outputFile.close()
     pdfFile.close()
 
-spliter(3,24)
+# spliter(100,200, 'C:/Users/User/Desktop/Automate_the_Boring_Stuff_with_Python_Practical_Programming_for.pdf')
