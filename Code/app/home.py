@@ -1,10 +1,10 @@
 from tkinter import *
 from tkinter import filedialog
-import mysql.connector
-from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf,mergepdf,savedpdfs,options
+from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf,mergepdf,savedpdfs,options,auth
 from app.User import userDetails
 from app.common import center
 import os
+import mysql.connector
 
 class HomeWindow():
     def __init__(self):
@@ -16,8 +16,8 @@ class HomeWindow():
         def toLoginPage():
             # destroy the current window instance (LogInWindow)
             window.destroy()
-            # call the login up window class
-            login.LogInWindow()
+            # call the auth window class which will load the login screen
+            auth.AuthWindow()
 
         def btn_clicked():
             print("ButtonClicked")

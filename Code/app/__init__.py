@@ -1,4 +1,4 @@
-from app import login
+from app import auth
 
 def run():
-    login.LogInWindow()
+    auth.AuthWindow()
