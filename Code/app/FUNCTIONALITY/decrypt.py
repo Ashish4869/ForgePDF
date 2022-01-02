@@ -4,7 +4,7 @@ def decrypt(file,password):#function to the Pdf file decrypt
 
     #opening the encrypted file and decrypted file in read and write mode respectively
     efile = open(file, 'rb')
-    defile= open(file, 'wb')
+    defile= open('decrypted.pdf', 'wb')
 
     #the reader and writer objects
     pdfReader = PyPDF2.PdfFileReader(efile)
@@ -24,3 +24,5 @@ def decrypt(file,password):#function to the Pdf file decrypt
     #saving the changes and closing the files
     efile.close()
     defile.close()
+
+# decrypt('encrypted.pdf','lol')
