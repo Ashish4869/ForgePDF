@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter.messagebox import showinfo, WARNING
 from app.Functionality import merge
+from app.User import userDetails
 from app import login
 from app import home
 from app.common import center
@@ -15,6 +16,7 @@ class MergePdfWindow():
 
         #Button Functions
         def toHomePage():
+            userDetails.NotSelectPdfBool()
             # destroy the current window instance (LogInWindow)
             window.destroy()
             # call the home up window class
@@ -64,6 +66,12 @@ class MergePdfWindow():
             x = 1082, y = 495,
             width = 81,
             height = 87)
+
+            #if routed from options page then set the values of the pdf to be merged
+            if userDetails.GetselectedPdfBool() == True:
+                pdfstomerge.append(userDetails.getSelectPdf())
+                Pdf1name.insert('0', os.path.basename(userDetails.getSelectPdf()))
+                Pdf1name.bind("<Key>", lambda e: "break")
 
 
         #shows the second pdf pic
@@ -320,6 +328,11 @@ class MergePdfWindow():
 
         FilesMergedLabel.pack()
         FilesMergedLabel.pack_forget()
+
+
+        #if we are routing from options page then set the pdf was the select in options page
+        if userDetails.GetselectedPdfBool() == True:
+            showPdf1pic()
 
 
         #Additional window config

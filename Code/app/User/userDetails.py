@@ -1,6 +1,7 @@
-#Stores the current users id  and name here
+#Stores the current users id ,selectedpdf and name here
 uid = []
 username = []
+selectPdf = []
 
 #function to SET the UID of the user who logged in
 def setUID(useruid):
@@ -28,3 +29,29 @@ def setUsername(userName):
 def getUsername():
     return username[0]
 
+
+#function to SET the pdf user selected
+def setSelectPdf(Pdfaddress):
+    if len(selectPdf) == 0:
+        selectPdf.append(Pdfaddress)
+    else:
+        selectPdf[0] = Pdfaddress
+
+
+#function to get the pdf the user selected
+def getSelectPdf():
+    return selectPdf[0]
+
+
+
+#checks if the email , split , merge pdf where reached by options page or not
+hasSelectpdf = [False]
+
+def SetSelectedPdfBool():
+    hasSelectpdf[0] = True
+
+def GetselectedPdfBool():
+    return hasSelectpdf[0]
+
+def NotSelectPdfBool():
+    hasSelectpdf[0] = False

@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 import mysql.connector
-from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf,mergepdf,savedpdfs
+from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf,mergepdf,savedpdfs,options
 from app.User import userDetails
 from app.common import center
 import os
@@ -75,6 +75,16 @@ class HomeWindow():
             window.destroy()
             # call the saved pdf window class
             savedpdfs.SavedPdfWindow()
+
+        def toOptionsPage(SelectPdf):
+            #set the value of the pdf select by the user in the user details class
+            userDetails.setSelectPdf(SelectPdf)
+
+            # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the options up window class
+            options.OptionsPdfWindow()
+
             
 
         #Testing conditional rendering and file open
@@ -346,7 +356,7 @@ class HomeWindow():
                 highlightthickness = 0,
                 background="#1C2541",
                 activebackground="#1C2541",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[0][0]),
                 relief = "flat")
 
 
@@ -390,7 +400,7 @@ class HomeWindow():
                 highlightthickness = 0,
                 background="#1C2541",
                 activebackground="#1C2541",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[1][0]),
                 relief = "flat")
 
             Pdf2IconLabel.place(
@@ -433,7 +443,7 @@ class HomeWindow():
                 highlightthickness = 0,
                 background="#1C2541",
                 activebackground="#1C2541",
-                command = btn_clicked,
+                command =lambda: toOptionsPage(result[2][0]),
                 relief = "flat")
 
 
