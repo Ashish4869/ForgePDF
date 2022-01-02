@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 import mysql.connector
-from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf,mergepdf
+from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf,mergepdf,savedpdfs
 from app.User import userDetails
 from app.common import center
 import os
@@ -69,6 +69,13 @@ class HomeWindow():
             window.destroy()
             # call the email pdf window class
             mergepdf.MergePdfWindow()
+
+        def toSavedPdfs():
+            # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the saved pdf window class
+            savedpdfs.SavedPdfWindow()
+            
 
         #Testing conditional rendering and file open
         # def showfile1():
@@ -240,7 +247,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = btn_clicked,
+            command = toSavedPdfs,
             relief = "flat")
 
 
@@ -313,6 +320,7 @@ class HomeWindow():
 
 
         uid.append(userDetails.getUID())
+        
         # creating a mysql connection
         mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
         mycursor = mydb.cursor()
