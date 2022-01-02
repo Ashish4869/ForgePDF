@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.messagebox import showinfo, WARNING
 from app import signup, home
 import mysql.connector
+from app.User import userDetails
 import os
 
 def loadLogIn(window):
@@ -20,7 +21,7 @@ def loadLogIn(window):
         mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
         mycursor = mydb.cursor()
         # getting all the user data from the database
-        mycursor.execute("select name, password from users where name='" + name + "'")
+        mycursor.execute("select name, password, user_id from users where name='" + name + "'")
         # selecting only the first row from the fetched data
         result = mycursor.fetchone()
 
@@ -34,6 +35,11 @@ def loadLogIn(window):
         else:
             showinfo('Successfull', 'You have successfully logged in!')
                 # destroy the current window instance (SignUpWindow)
+            
+            #Stores the UID in a py file
+            userDetails.setUID(result[2])
+            # print(result)
+
             window.destroy()
             # call the Home window class
             home.HomeWindow()

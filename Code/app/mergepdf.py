@@ -33,6 +33,7 @@ class MergePdfWindow():
             #opens the file box , gets the abs path of the file and appends in list
             if canget == True:    
                 fileaddress = filedialog.askopenfilename(initialdir= os.getenv('MERGE_INITIAL_DIR'), title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
+                print(fileaddress)
                 pdfstomerge.append(fileaddress)
                 filename = os.path.basename(fileaddress)
                 print(filename)
@@ -250,7 +251,7 @@ class MergePdfWindow():
             font = 20,
             fg= "#5BC0BE",
             justify=CENTER,
-            insertbackground= "#5BC0BE",
+            insertbackground= "#1C2541",
             highlightthickness = 0)
 
         Pdf1name.place(
@@ -272,7 +273,7 @@ class MergePdfWindow():
             font = 20,
             fg= "#5BC0BE",
             justify=CENTER,
-            insertbackground= "#5BC0BE",
+            insertbackground= "#1C2541",
             highlightthickness = 0)
 
         Pdf2name.place(
@@ -294,7 +295,7 @@ class MergePdfWindow():
             font = 20,
             fg= "#5BC0BE",
             justify=CENTER,
-            insertbackground= "#5BC0BE",
+            insertbackground= "#1C2541",
             highlightthickness = 0)
 
         Pdf3name.place(

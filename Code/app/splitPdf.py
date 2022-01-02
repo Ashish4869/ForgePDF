@@ -1,10 +1,19 @@
 from tkinter import *
+from tkinter import filedialog
+from tkinter.messagebox import showinfo, WARNING
+from app.FUNCTIONALITY import splitter
 from app import login
 from app import home
+import os
 from app.common import center
 
 class SplitPdfWIndow():
     def __init__(self):
+
+
+        #Variable to hold the address of the pdf to be split
+        PdfToSplit = []
+
         #Button Functions
         def toHomePage():
             # destroy the current window instance (LogInWindow)
@@ -14,6 +23,70 @@ class SplitPdfWIndow():
 
         def btn_clicked():
             print("ButtonClicked")
+        
+
+        #gets the pdf the split
+        def getPdf():
+            if len(PdfToSplit) != 0:
+                showinfo("ERROR" , "You can split only one pdf at a time")
+                return
+
+            #gets attachement from user
+            attachmentPathvar = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
+            filename = os.path.basename(attachmentPathvar)
+            
+            #stores attachement in list
+            PdfToSplit.append(attachmentPathvar)
+
+            #adds the value in the textbox and displays it
+            PDFTextBoxEntry.insert('0' , filename)
+            PDFTextBoxEntry.bind("<Key>", lambda e: "break")
+            showSplitPdf()
+
+
+        #checks the condition and splits the pdf
+        def SplitPdf():
+            startRange = int(StartingRange.get())
+            endRange = int(EndingRange.get())
+            
+            #if starting range is greater than endingrange
+            if(startRange > endRange):
+                showinfo("ERROR" , "Starting range cannt be greater than ending range!!")
+                return
+
+            showPdfSplitMessage()
+
+            splitter.spliter(startRange , endRange , PdfToSplit[0])
+
+       
+        #shows the selected pdf along with the name
+        def showSplitPdf():
+            PDFTextBoxEntry.pack()
+
+            PDFTextBoxEntry.place(
+            x = 100, y = 600,
+            width = 800,
+            height = 87)
+
+            PdfImageIcon.pack()
+
+            PdfImageIcon.place(
+            x = 100, y = 525,
+            width = 800,
+            height = 87)
+
+
+        #shows the message that pdf is split
+        def showPdfSplitMessage():
+            SplitPdfSubmitButton.pack_forget()
+            PdfSplitLabel.pack()
+
+            PdfSplitLabel.place(
+            x = 1022, y = 604,
+            width = 206,
+            height = 46)
+
+
 
         window = Tk()
 
@@ -51,7 +124,7 @@ class SplitPdfWIndow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = btn_clicked,
+            command = getPdf,
             relief = "flat")
 
         ChooseFileButton.place(
@@ -86,7 +159,7 @@ class SplitPdfWIndow():
             highlightthickness = 0,
             background="#1C2541",
             activebackground="#1C2541",
-            command = btn_clicked,
+            command = SplitPdf,
             relief = "flat")
 
         SplitPdfSubmitButton.place(
@@ -135,6 +208,53 @@ class SplitPdfWIndow():
             x = 1031, y = 454,
             width = 183,
             height = 64)
+
+        
+        #PdfTextBox
+        PDFTextBoxImage = PhotoImage(file = f"./images/splitpdf/TextBoxBG.png")
+        PDFTextBox = canvas.create_image(
+            1124.5, 605.5,
+            image = PDFTextBoxImage)
+
+        PDFTextBoxEntry = Entry(
+            bd = 0,
+            bg = "#0B132B",
+            font = 20,
+            fg= "#5BC0BE",
+            justify=CENTER,
+            insertbackground= "#0B132B",
+            highlightthickness = 0)
+
+        PDFTextBoxEntry.pack()
+        PDFTextBoxEntry.pack_forget()
+
+
+        #PdfMerged Message
+        PdfSplitImage = PhotoImage(file = f"./images/splitpdf/PdfSplit.png")
+        PdfSplitLabel = Label(
+            image = PdfSplitImage,
+            borderwidth = 0,
+            highlightthickness = 0,
+            background="#1C2541",
+            relief = "flat")
+
+        PdfSplitLabel.pack()
+        PdfSplitLabel.pack_forget()
+
+
+
+        #PdfImage Config
+        PdfImage = PhotoImage(file = f"./images/splitpdf/pdfImage.png")
+        PdfImageIcon = Label(
+            image = PdfImage,
+            borderwidth = 0,
+            highlightthickness = 0,
+            background="#0B132B",
+            relief = "flat")
+
+        PdfImageIcon.pack()
+        PdfImageIcon.pack_forget()
+
 
         window.resizable(False, False)
         window.mainloop()
