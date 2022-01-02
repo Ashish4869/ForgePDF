@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from app import login, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf,mergepdf
+from app import auth, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf,mergepdf
 from app.common import center
 
 class HomeWindow():
@@ -9,8 +9,8 @@ class HomeWindow():
         def toLoginPage():
             # destroy the current window instance (LogInWindow)
             window.destroy()
-            # call the login up window class
-            login.LogInWindow()
+            # call the auth window class which will load the login screen
+            auth.AuthWindow()
 
         def btn_clicked():
             print("ButtonClicked")
