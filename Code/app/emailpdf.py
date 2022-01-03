@@ -3,7 +3,8 @@ from tkinter import filedialog
 from tkinter.messagebox import showinfo, WARNING
 from app import login
 from app import home
-from app.FUNCTIONALITY import emailbot
+from app.Functionality import emailbot
+from app.User import userDetails
 from app.common import center
 import os
 
@@ -16,6 +17,8 @@ class EmailPdfWindow():
 
         #Button Functions
         def toHomePage():
+            #reseting the setting of selected pdf
+            userDetails.NotSelectPdfBool()
             # destroy the current window instance (LogInWindow)
             window.destroy()
             # call the login up window class
@@ -90,6 +93,13 @@ class EmailPdfWindow():
             height = 91)
 
 
+            #if routed from options page then set the values for the pdf to be emailed
+            if userDetails.GetselectedPdfBool() == True:
+                attachmentPath.append(userDetails.getSelectPdf())
+                TextBoxAttachmentEntry.insert('0' , 'Attachment : ' + os.path.basename(userDetails.getSelectPdf()))
+                TextBoxAttachmentEntry.bind("<Key>", lambda e: "break")
+
+
         #shows thw csv filr selected in a text box
         def showCSVFile():
             CSVFileButton.pack_forget()
@@ -141,23 +151,7 @@ class EmailPdfWindow():
             640.0, 275.0,
             image=SendEmailBGImage)
 
-        #Add Attachment config
-        AddAttachmentImage = PhotoImage(file = f"./images/emailpdf/AddAttachmentBG.png")
-        AddAttachmentButton = Button(
-            image = AddAttachmentImage,
-            borderwidth = 0,
-            highlightthickness = 0,
-            background="#0B132B",
-            activebackground="#0B132B",
-            command = getAttachment,
-            relief = "flat")
-
-        AddAttachmentButton.pack()
-
-        AddAttachmentButton.place(
-            x = 50, y = 584,
-            width = 536,
-            height = 91)
+       
 
         #Send email button config
         SendEmailImage = PhotoImage(file = f"./images/emailpdf/SendEmailBG.png")
@@ -292,7 +286,28 @@ class EmailPdfWindow():
         EmailSentLabel.pack_forget()
 
 
+        #Add Attachment config
+        AddAttachmentImage = PhotoImage(file = f"./images/emailpdf/AddAttachmentBG.png")
+        AddAttachmentButton = Button(
+            image = AddAttachmentImage,
+            borderwidth = 0,
+            highlightthickness = 0,
+            background="#0B132B",
+            activebackground="#0B132B",
+            command = getAttachment,
+            relief = "flat")
 
+        AddAttachmentButton.pack()
+
+        
+        if userDetails.GetselectedPdfBool() == False:
+            AddAttachmentButton.place(
+                x = 50, y = 584,
+                width = 536,
+                height = 91)
+        #if we have routed from options page then add the attachement from the pdf selected from options page
+        else:
+            showAttachment()
       
 
         #Additional window config

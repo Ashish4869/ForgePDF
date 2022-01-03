@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 import mysql.connector
-from app import home
+from app import home,options
 from app.User import userDetails
 from app.common import center
 import os
@@ -18,6 +18,17 @@ class SavedPdfWindow():
             window.destroy()
             # call the login up window class
             home.HomeWindow()
+
+        #Route to options page and store the selected pdf
+        def toOptionsPage(SelectPdf):
+            #set the value in the user details class
+            userDetails.setSelectPdf(SelectPdf)
+
+            # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the options up window class
+            options.OptionsPdfWindow()
+
 
         def btn_clicked():
             print("button clicked")
@@ -86,7 +97,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[0][0]),
                 relief = "flat")
 
             Pdf1Button.place(
@@ -128,7 +139,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
-                command = btn_clicked,
+                command =lambda: toOptionsPage(result[1][0]),
                 relief = "flat")
 
             Pdf2Button.place(
@@ -172,6 +183,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
+                command= lambda: toOptionsPage(result[2][0]),
                 relief = "flat")
 
             Pdf3Button.place(
@@ -212,7 +224,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[3][0]),
                 relief = "flat")
 
             Pdf4Button.place(
@@ -255,7 +267,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[4][0]),
                 relief = "flat")
 
             Pdf5Button.place(
@@ -296,7 +308,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[5][0]),
                 relief = "flat")
 
             Pdf6Button.place(
@@ -338,7 +350,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[6][0]),
                 relief = "flat")
 
             Pdf7Button.place(
@@ -379,7 +391,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[7][0]),
                 relief = "flat")
 
             Pdf8Button.place(
@@ -420,7 +432,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[8][0]),
                 relief = "flat")
 
             Pdf9Button.place(
@@ -462,7 +474,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[9][0]),
                 relief = "flat")
 
             Pdf10Button.place(
@@ -505,7 +517,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[10][0]),
                 relief = "flat")
 
             Pdf11Button.place(
@@ -548,7 +560,7 @@ class SavedPdfWindow():
                 highlightthickness = 0,
                 background="#0B132B",
                 activebackground="#0B132B",
-                command = btn_clicked,
+                command = lambda: toOptionsPage(result[11][0]),
                 relief = "flat")
 
             Pdf12Button.place(
@@ -602,6 +614,6 @@ class SavedPdfWindow():
 
 
         
-        
+        #Additional window config
         window.resizable(False, False)
         window.mainloop()

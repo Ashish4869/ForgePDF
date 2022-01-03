@@ -1,9 +1,10 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter.messagebox import showinfo, WARNING
-from app.FUNCTIONALITY import splitter
+from app.Functionality import splitter
 from app import login
 from app import home
+from app.User import userDetails
 import os
 from app.common import center
 
@@ -16,6 +17,8 @@ class SplitPdfWIndow():
 
         #Button Functions
         def toHomePage():
+            #makes the selectpdf false so that we can start fresh
+            userDetails.NotSelectPdfBool()
             # destroy the current window instance (LogInWindow)
             window.destroy()
             # call the login up window class
@@ -74,6 +77,14 @@ class SplitPdfWIndow():
             x = 100, y = 525,
             width = 800,
             height = 87)
+
+            #if case we have routed from options page , then make neccessary arrangments
+            if userDetails.GetselectedPdfBool() == True:
+                PDFTextBoxEntry.insert('0' , os.path.basename(userDetails.getSelectPdf()))
+                PDFTextBoxEntry.bind("<Key>", lambda e: "break")
+
+                PdfToSplit.append(userDetails.getSelectPdf())
+
 
 
         #shows the message that pdf is split
@@ -254,6 +265,10 @@ class SplitPdfWIndow():
 
         PdfImageIcon.pack()
         PdfImageIcon.pack_forget()
+
+        #if we have routed from options page then set the pdf to be split
+        if userDetails.GetselectedPdfBool() == True:
+            showSplitPdf()
 
 
         window.resizable(False, False)
