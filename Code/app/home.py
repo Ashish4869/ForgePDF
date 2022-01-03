@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
-from app import auth, pdftoword,pdftoexcel,exceltopdf,wordtopdf,splitPdf,Scrapy,emailpdf,mergepdf, savedpdfs
+from app import auth, extractpdf,pdftoexcel,exceltopdf,encryptpdf,splitPdf,Scrapy,emailpdf,mergepdf, savedpdfs
+from app import decryptpdf
 from app.User import userDetails
 from app.common import center
 import os
@@ -22,29 +23,29 @@ class HomeWindow():
         def btn_clicked():
             print("ButtonClicked")
 
-        def toPdfToWordPage():
+        def toExtractPDF():
              # destroy the current window instance (LogInWindow)
             window.destroy()
-            # call the pdf to word window class
-            pdftoword.PdfToWordWindow()
+            # call the extract pdf window class
+            extractpdf.extractWindow()
 
-        def toPdfToExcelPage():
+        def toEncryptPDF():
              # destroy the current window instance (LogInWindow)
             window.destroy()
-            # call the pdf to excel window class
-            pdftoexcel.PdfToExcelWindow()
+            # call the encrypt pdf window class
+            encryptpdf.encryptWindow()
+
+        def toDecryptPDF():
+             # destroy the current window instance (LogInWindow)
+            window.destroy()
+            # call the decrypt pdf window class
+            decryptpdf.decryptWindow()
 
         def toExcelToPdfPage():
              # destroy the current window instance (LogInWindow)
             window.destroy()
             # call the excel to pdf window class
             exceltopdf.ExcelToPdfWindow()
-
-        def toWordToPdfPage():
-             # destroy the current window instance (LogInWindow)
-            window.destroy()
-            # call the excel to pdf window class
-            wordtopdf.WordToPdfWindow()
 
         def toSplitPdf():
              # destroy the current window instance (LogInWindow)
@@ -146,7 +147,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = toPdfToWordPage,
+            command = toExtractPDF,
             relief = "flat")
 
 
@@ -166,7 +167,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = toPdfToExcelPage,
+            command = toDecryptPDF,
             relief = "flat")
 
         # Pdf to excel button placement
@@ -288,7 +289,7 @@ class HomeWindow():
             highlightthickness = 0,
             background="#0B132B",
             activebackground="#0B132B",
-            command = toWordToPdfPage,
+            command = toEncryptPDF,
             relief = "flat")
 
 
