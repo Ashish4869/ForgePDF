@@ -1,11 +1,14 @@
 from tkinter import *
+from tkinter.messagebox import showinfo
 from tkinter import filedialog
 from app import home
 from app.common import center
 import os
-
+from app.FUNCTIONALITY import extract, inputValidation
 class extractWindow():
     def __init__(self):
+        self.pdfToExtract = ''
+
         #Button Functions
         def toHomePage():
             # destroy the current window instance (LogInWindow)
@@ -18,13 +21,16 @@ class extractWindow():
             filename = os.path.basename(attachmentPathvar)
             PDFTextBoxEntry.insert('0' , filename)
             PDFTextBoxEntry.bind("<Key>", lambda e: "break")
-
+            self.pdfToExtract = attachmentPathvar
             showExtractPDF()
 
         def extractPDF():
-            showExtractedMessage()
-            # TODO: Implement error handling
-            # TODO: Implement pdf extraction to a text
+            condition = inputValidation.extractVal(self.pdfToExtract)
+            if condition != True:
+                showinfo('Error', condition['error'])
+            else:
+                extract.extract(self.pdfToExtract)
+                showExtractedMessage()
 
         #shows the selected pdf along with the name
         def showExtractPDF():

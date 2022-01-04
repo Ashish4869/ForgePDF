@@ -1,11 +1,13 @@
 from tkinter import *
 from tkinter import filedialog
-from app import auth, extractpdf,pdftoexcel,exceltopdf,encryptpdf,splitPdf,Scrapy,emailpdf,mergepdf, savedpdfs
-from app import decryptpdf
+from tkinter.font import BOLD
+from app import auth, options, extractpdf, encryptpdf, splitPdf, Scrapy, emailpdf, mergepdf, savedpdfs, decryptpdf
 from app.User import userDetails
+from app.FUNCTIONALITY import weatherapi
 from app.common import center
 import os
 import mysql.connector
+import datetime
 
 class HomeWindow():
     def __init__(self):
@@ -15,78 +17,74 @@ class HomeWindow():
 
         #Button Functions
         def toLoginPage():
-            # destroy the current window instance (LogInWindow)
+            # destroy the current window instance (AuthWindow)
             window.destroy()
             # call the auth window class which will load the login screen
             auth.AuthWindow()
 
-        def btn_clicked():
-            print("ButtonClicked")
-
-        def toExtractPDF():
-             # destroy the current window instance (LogInWindow)
-            window.destroy()
-            # call the extract pdf window class
-            extractpdf.extractWindow()
 
         def toEncryptPDF():
-             # destroy the current window instance (LogInWindow)
+             # destroy the current window instance (AuthWindow)
             window.destroy()
             # call the encrypt pdf window class
             encryptpdf.encryptWindow()
 
         def toDecryptPDF():
-             # destroy the current window instance (LogInWindow)
+             # destroy the current window instance (AuthWindow)
             window.destroy()
             # call the decrypt pdf window class
             decryptpdf.decryptWindow()
 
-        def toExcelToPdfPage():
-             # destroy the current window instance (LogInWindow)
-            window.destroy()
-            # call the excel to pdf window class
-            exceltopdf.ExcelToPdfWindow()
-
-        def toSplitPdf():
-             # destroy the current window instance (LogInWindow)
-            window.destroy()
-            # call the splitPdf window class
-            splitPdf.SplitPdfWIndow()
-
-        def toScrapy():
-             # destroy the current window instance (LogInWindow)
-            window.destroy()
-            # call the scrapy window class
-            Scrapy.ScrapyWindow()
-
         def toEmailPdf():
-            # destroy the current window instance (LogInWindow)
+            # destroy the current window instance (AuthWindow)
             window.destroy()
             # call the email pdf window class
             emailpdf.EmailPdfWindow()
 
-        def toMergerPdf():
-            # destroy the current window instance (LogInWindow)
+        def toExtractPDF():
+            # destroy the current window instance (AuthWindow)
             window.destroy()
-            # call the email pdf window class
+            # call the extract pdf window class
+            extractpdf.extractWindow()
+
+
+        def toSplitPdf():
+             # destroy the current window instance (AuthWindow)
+            window.destroy()
+            # call the splitPdf window class
+            splitPdf.SplitPdfWIndow()
+            
+        def toMergedPdf():
+            # destroy the current window instance (AuthWindow)
+            window.destroy()
+            # call the merge pdf window class
             mergepdf.MergePdfWindow()
 
         def toSavedPdfs():
-            # destroy the current window instance (LogInWindow)
+            # destroy the current window instance (AuthWindow)
             window.destroy()
             # call the saved pdf window class
             savedpdfs.SavedPdfWindow()
+
+
+        def toScrapy():
+             # destroy the current window instance (AuthWindow)
+            window.destroy()
+            # call the scrapy window class
+            Scrapy.ScrapyWindow()
+
 
         def toOptionsPage(SelectPdf):
             #set the value of the pdf select by the user in the user details class
             userDetails.setSelectPdf(SelectPdf)
 
-            # destroy the current window instance (LogInWindow)
+            # destroy the current window instance (AuthWindow)
             window.destroy()
             # call the options up window class
             options.OptionsPdfWindow()
 
-            
+        def btn_clicked():
+            print("ButtonClicked")
 
         #Testing conditional rendering and file open
         # def showfile1():
@@ -111,7 +109,22 @@ class HomeWindow():
         center(window)
         window.configure(bg = "#0b132b")
 
-        # Creating a Canvas
+        # calling the weather api and storing the object in the variable weatherData
+        weatherData=weatherapi.loadWeatherData()
+        print(weatherData)
+
+        uid.append(userDetails.getUID())
+        
+        # creating a mysql connection
+        mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
+        mycursor = mydb.cursor()
+        # getting all the user data from the database
+        mycursor.execute("select file_address from files where user_id='" + str(uid[0]) + "' order by file_id desc")
+        # selecting only the first row from the fetched data
+        result = mycursor.fetchall()
+        print(result)
+
+
         canvas = Canvas(
             window,
             bg = "#0b132b",
@@ -122,8 +135,6 @@ class HomeWindow():
             relief = "ridge")
         canvas.place(x = 0, y = 0)
 
-
-        # Adding the background
         background_img = PhotoImage(file = f"./images/home/HomeBG.png")
         background = canvas.create_image(
             640.0, 360.0,
@@ -146,206 +157,288 @@ class HomeWindow():
             x = 22, y = 29,
             width = 131,
             height = 48)
-
-        # Image for Pdf to word
-        PdfToWordImage = PhotoImage(file = f"./images/home/PdfToWord.png")
-        
-        # Pdf to word button config
-        PdfToWordButton = Button(
-            image = PdfToWordImage,
-            borderwidth = 0,
-            highlightthickness = 0,
-            background="#0B132B",
-            activebackground="#0B132B",
-            command = toExtractPDF,
-            relief = "flat")
-
-
-        # Pdf to word button placement
-        PdfToWordButton.place(
-            x = 140, y = 174,
-            width = 159,
-            height = 129)
-
-        # Image for Pdf to excel
-        PdfToExcelImage = PhotoImage(file = f"./images/home/PDFToExcel.png")
-        
-        # Pdf to excel button config
-        PdfToExcelButton = Button(
-            image = PdfToExcelImage,
-            borderwidth = 0,
-            highlightthickness = 0,
-            background="#0B132B",
-            activebackground="#0B132B",
-            command = toDecryptPDF,
-            relief = "flat")
-
-        # Pdf to excel button placement
-        PdfToExcelButton.place(
-            x = 424, y = 174,
-            width = 159,
-            height = 129)
-
-
-        # Image for Scrap
-        ScrapyImage = PhotoImage(file = f"./images/home/ScrapyImage.png")
-        
-        # Scrap button config
-        ScrapyButton = Button(
-            image = ScrapyImage,
-            borderwidth = 0,
-            highlightthickness = 0,
-            background="#0B132B",
-            activebackground="#0B132B",
-            command = toScrapy,
-            relief = "flat")
-
-
-        # Scrap button placement
-        ScrapyButton.place(
-            x = 710, y = 518,
-            width = 158,
-            height = 130)
-
-
-        # Image for MergePdf
-        MergePdfImage = PhotoImage(file = f"./images/home/MergePdf.png")
-        
-        # Merge Pdf button config
-        MergePdfButton = Button(
-            image = MergePdfImage,
-            borderwidth = 0,
-            highlightthickness = 0,
-            background="#0B132B",
-            activebackground="#0B132B",
-            command = toMergerPdf,
-            relief = "flat")
-
-        # MergePdf button placement
-        MergePdfButton.place(
-            x = 709, y = 346,
-            width = 159,
-            height = 129)
-
-
-        # Image for SplitPDf
+            
         SplitPdfImage = PhotoImage(file = f"./images/home/SplitPdf.png")
-        
-        # Split Pdf button config
         SplitPdfButton = Button(
             image = SplitPdfImage,
             borderwidth = 0,
             highlightthickness = 0,
-            background="#0B132B",
-            activebackground="#0B132B",
+            background="#1C2541",
+            activebackground="#1C2541",
             command = toSplitPdf,
             relief = "flat")
 
-        # Split pdf  button placement
         SplitPdfButton.place(
-            x = 709, y = 174,
-            width = 160,
-            height = 129)
+            x = 3, y = 573,
+            width = 268,
+            height = 144)
 
-
-        # Image for SavedPdf
-        SavedPdfsImage = PhotoImage(file = f"./images/home/SavedPDF.png")
-       
-        # Saved Pdf button config
-        SavedPdfsButton = Button(
-            image = SavedPdfsImage,
+        MergePdfImage = PhotoImage(file = f"./images/home/MergePdf.png")
+        MergePdfButton = Button(
+            image = MergePdfImage,
             borderwidth = 0,
             highlightthickness = 0,
-            background="#0B132B",
-            activebackground="#0B132B",
+            background="#1C2541",
+            activebackground="#1C2541",
+            command = toMergedPdf,
+            relief = "flat")
+
+        MergePdfButton.place(
+            x = 273, y = 573,
+            width = 230,
+            height = 144)
+
+        SavedPdfImage = PhotoImage(file = f"./images/home/SavedPdf.png")
+        SavedPdfButton = Button(
+            image = SavedPdfImage,
+            borderwidth = 0,
+            highlightthickness = 0,
+            background="#1C2541",
+            activebackground="#1C2541",
             command = toSavedPdfs,
             relief = "flat")
 
+        SavedPdfButton.place(
+            x = 506, y = 573,
+            width = 240,
+            height = 144)
 
-        # saved pdf button placement
-        SavedPdfsButton.place(
-            x = 424, y = 519,
-            width = 159,
-            height = 130)
+        ScrapyImage = PhotoImage(file = f"./images/home/Scrapy.png")
+        ScrapyButton = Button(
+            image = ScrapyImage,
+            borderwidth = 0,
+            highlightthickness = 0,
+            background="#1C2541",
+            activebackground="#1C2541",
+            command = toScrapy,
+            relief = "flat")
 
+        ScrapyButton.place(
+            x = 749, y = 573,
+            width = 237,
+            height = 144)
 
-        # Image for Email PDf
+        EncryptPdfImage = PhotoImage(file = f"./images/home/EncryptPdf.png")
+        EncryptPdfButton = Button(
+            image = EncryptPdfImage,
+            borderwidth = 0,
+            highlightthickness = 0,
+            background="#1C2541",
+            activebackground="#1C2541",
+            command = toEncryptPDF,
+            relief = "flat")
+
+        EncryptPdfButton.place(
+            x = 274, y = 417,
+            width = 229,
+            height = 153)
+
+        DecryptPdfImage = PhotoImage(file = f"./images/home/DecryptPdf.png")
+        DecryptPdfButton = Button(
+            image = DecryptPdfImage,
+            borderwidth = 0,
+            highlightthickness = 0,
+            background="#1C2541",
+            activebackground="#1C2541",
+            command = toDecryptPDF,
+            relief = "flat")
+
+        DecryptPdfButton.place(
+            x = 3, y = 417,
+            width = 268,
+            height = 153)
+
         EmailPdfImage = PhotoImage(file = f"./images/home/EmailPdf.png")
-        
-        # Email button config
         EmailPdfButton = Button(
             image = EmailPdfImage,
             borderwidth = 0,
             highlightthickness = 0,
-            background="#0B132B",
-            activebackground="#0B132B",
+            background="#1C2541",
+            activebackground="#1C2541",
             command = toEmailPdf,
             relief = "flat")
 
-
-        # email pdf button placement
         EmailPdfButton.place(
-            x = 142, y = 519,
-            width = 158,
-            height = 130)
+            x = 506, y = 417,
+            width = 240,
+            height = 153)
 
-        # Image for Word to pdf
-        WordToPdfImage = PhotoImage(file = f"./images/home/WordToPdf.png")
-        
-        # word to pdf button config
-        WordToPdfButton = Button(
-            image = WordToPdfImage,
+        ExtractPdfImage = PhotoImage(file = f"./images/home/ExtractPdf.png")
+        ExtractPdfButton = Button(
+            image = ExtractPdfImage,
             borderwidth = 0,
             highlightthickness = 0,
-            background="#0B132B",
-            activebackground="#0B132B",
-            command = toEncryptPDF,
+            background="#1C2541",
+            activebackground="#1C2541",
+            command = toExtractPDF,
             relief = "flat")
 
-
-        # word to pdf button placement
-        WordToPdfButton.place(
-            x = 140, y = 346,
-            width = 160,
-            height = 130)
-
-        # Image for Excel to pdf
-        ExcelToPdfImage = PhotoImage(file = f"./images/home/ExcelToPdf.png")
+        ExtractPdfButton.place(
+            x = 748, y = 417,
+            width = 237,
+            height = 153)
         
-        # Excel to pdf button config
-        ExcelToPdfButton = Button(
-            image = ExcelToPdfImage,
+        
+        Username = Label(text = userDetails.getUsername(), font=('Poppins', 25, BOLD), fg= "#5BC0BE",bg = "#0B132B")
+        Username.place(x = 280, y = 137)  
+
+        SunnyImage = PhotoImage(file = f"./images/home/SunnyImage.png")
+        CloudyImage = PhotoImage(file = f"./images/home/CloudyImage.png")
+        RainyImage = PhotoImage(file = f"./images/home/RainyImage.png")
+        WeatherImageButton = Button(
             borderwidth = 0,
+            bg="#0B132B",
             highlightthickness = 0,
-            background="#0B132B",
-            activebackground="#0B132B",
-            command = toExcelToPdfPage,
+            command = btn_clicked,
             relief = "flat")
 
+        # setting the image for the button based on the description
+        if weatherData['description'] == "clear sky":
+            WeatherImageButton.config(image = SunnyImage)
+        elif weatherData['description'] == "few clouds":
+            WeatherImageButton.config(image = SunnyImage)
+        elif weatherData['description'] == "scattered clouds":
+            WeatherImageButton.config(image = SunnyImage)
+        elif weatherData['description'] == "broken clouds":
+            WeatherImageButton.config(image = CloudyImage)
+        elif weatherData['description'] == "shower rain":
+            WeatherImageButton.config(image = RainyImage)
+        elif weatherData['description'] == "rain":
+            WeatherImageButton.config(image = RainyImage)
+        elif weatherData['description'] == "thunderstorm":
+            WeatherImageButton.config(image = RainyImage)
+        else:
+            WeatherImageButton.config(image = CloudyImage)
 
-        # excel to pdf button placement
-        ExcelToPdfButton.place(
-            x = 424, y = 346,
-            width = 159,
-            height = 130)
+        WeatherImageButton.place(
+            x = 95, y = 252,
+            width = 102,
+            height = 94)
+
+        WeatherDescTextBoxImage = PhotoImage(file = f"./images/home/WeatherDescTextBox.png")
+        WeatherDescTextBox = canvas.create_image(
+            143.5, 363.0,
+            image = WeatherDescTextBoxImage)
+
+        WeatherDescTextBoxEntry = Entry(
+            bd = 0,
+            bg = "#0b132b",
+            font = ('Poppins', 16, BOLD),
+            fg= "#5BC0BE",
+            justify=CENTER,
+            highlightthickness = 0)
+        WeatherDescTextBoxEntry.insert(0, weatherData['description'].title())
+        WeatherDescTextBoxEntry.bind("<Key>", lambda e: "break")
+
+        WeatherDescTextBoxEntry.place(
+            x = 63, y = 349,
+            width = 161,
+            height = 26)
 
 
-        uid.append(userDetails.getUID())
-        
-        # creating a mysql connection
-        mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
-        mycursor = mydb.cursor()
-        # getting all the user data from the database
-        mycursor.execute("select file_address from files where user_id='" + str(uid[0]) + "' order by file_id desc")
-        # selecting only the first row from the fetched data
-        result = mycursor.fetchall()
-        print(result)
+        TempTextBoxImage = PhotoImage(file = f"./images/home/TempTextBox.png")
+        TempTextBox = canvas.create_image(
+            417.0, 349.5,
+            image = TempTextBoxImage)
+
+        TempTextBoxEntry = Entry(
+            bd = 0,
+            bg = "#0b132b",
+            font = ('Poppins', 13, BOLD),
+            fg= "#5BC0BE",
+            justify=RIGHT,
+            highlightthickness = 0)
+        TempTextBoxEntry.insert(0, weatherData['temp'])
+        TempTextBoxEntry.bind("<Key>", lambda e: "break")
+
+        TempTextBoxEntry.place(
+            x = 394, y = 339,
+            width = 44,
+            height = 23)
 
 
 
+        FeelsLikeTextBoxImage = PhotoImage(file = f"./images/home/FeelsLikeTextBox.png")
+        FeelsLikeTextBox = canvas.create_image(
+            435.0, 381.5,
+            image = FeelsLikeTextBoxImage)
+
+        FeelsLikeTextBoxEntry = Entry(
+            bd = 0,
+            bg = "#0b132b",
+            font = ('Poppins', 13, BOLD),
+            fg= "#5BC0BE",
+            justify=RIGHT,
+            highlightthickness = 0)
+        FeelsLikeTextBoxEntry.insert(0, weatherData['feels_like'])
+        FeelsLikeTextBoxEntry.bind("<Key>", lambda e: "break")
+
+        FeelsLikeTextBoxEntry.place(
+            x = 408, y = 370,
+            width = 44,
+            height = 23)
 
 
 
+        WindTextBoxImage = PhotoImage(file = f"./images/home/WindTextBox.png")
+        WindTextBox = canvas.create_image(
+            626.0, 369.5,
+            image = WindTextBoxImage)
+
+        WindTextBoxEntry = Entry(
+            bd = 0,
+            bg = "#0b132b",
+            font = ('Poppins', 15, BOLD),
+            fg= "#5BC0BE",
+            justify=CENTER,
+            highlightthickness = 0)
+        WindTextBoxEntry.insert(0, weatherData['wind_speed'])
+        WindTextBoxEntry.bind("<Key>", lambda e: "break")
+
+        WindTextBoxEntry.place(
+            x = 597, y = 358,
+            width = 53,
+            height = 23)
+
+        HumidityTextBoxImage = PhotoImage(file = f"./images/home/HumidityTextBox.png")
+        HumidityTextBox = canvas.create_image(
+            904.5, 369.5,
+            image = HumidityTextBoxImage)
+
+        HumidityTextBoxEntry = Entry(
+            bd = 0,
+            bg = "#0b132b",
+            font = ('Poppins', 15, BOLD),
+            fg= "#5BC0BE",
+            justify=CENTER,
+            highlightthickness = 0)
+        HumidityTextBoxEntry.insert(0, weatherData['humidity'])
+        HumidityTextBoxEntry.bind("<Key>", lambda e: "break")
+
+        HumidityTextBoxEntry.place(
+            x = 895, y = 358,
+            width = 28,
+            height = 23)
+
+        DayTimeTextBoxImage = PhotoImage(file = f"./images/home/DayTimeTextBox.png")
+        DayTimeTextBox = canvas.create_image(
+            829.0, 159.5,
+            image = DayTimeTextBoxImage)
+
+        DayTimeTextBoxEntry = Entry(
+            bd = 0,
+            bg = "#0b132b",
+            font = ('Poppins', 15, BOLD),
+            fg= "#5BC0BE",
+            justify=CENTER,
+            highlightthickness = 0)
+        DayTimeTextBoxEntry.insert(0, datetime.date.today().strftime("%A") + ', ' + datetime.datetime.now().strftime("%I:%M %p"))
+        DayTimeTextBoxEntry.bind("<Key>", lambda e: "break")
+
+        DayTimeTextBoxEntry.place(
+            x = 706, y = 141,
+            width = 246,
+            height = 35)
 
         if len(result) > 0:
         # # Image for most recent Pdf in database
@@ -431,8 +524,6 @@ class HomeWindow():
 
             Pdf2Entry.insert('0' , os.path.basename(result[1][0]))
             Pdf2Entry.bind("<Key>", lambda e: "break")
-
-            
 
         if len(result) > 2:
         # # Image for 3rd most recent Pdf in database

@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter.messagebox import showinfo, WARNING
 from app import login , home
-from app.Functionality import scrapping
+from app.FUNCTIONALITY import scrapping, inputValidation
 from app.common import center
 import threading
 
@@ -13,8 +13,8 @@ class ScrapyWindow  ():
             window.destroy()
             # call the login up window class
             home.HomeWindow()
-
-        def ScrapIt():
+        
+        def handleStart():
             #getting the input from the text box
             itemToScrap = InputEntry.get()
             
@@ -25,6 +25,19 @@ class ScrapyWindow  ():
             #     home.HomeWindow()
             #     window.destroy()
 
+            condition = inputValidation.scrappyVal(itemToScrap)
+            if condition != True:
+                showinfo('Error', condition['error'])
+            else:
+                handleThread()
+
+        def handleThread():
+            threading.Timer(0.1, ScrapIt).start()
+            threading.Timer(0.1, showLoading).start()
+            threading.Timer(5.0, showDone).start()
+
+        def ScrapIt():
+            itemToScrap = InputEntry.get()
             #call the scrapping function and scrap the details
             scrapping.main(itemToScrap)
 
@@ -89,7 +102,7 @@ class ScrapyWindow  ():
             activebackground="#0B132B",
 
             #creating 3 threads to run the scraping , and show the 2 labels at some fixed time
-            command= lambda: [threading.Timer(0.1, ScrapIt).start(), threading.Timer(0.1, showLoading).start(), threading.Timer(5.0, showDone).start()],
+            command= handleStart,
             relief = "flat")
 
         ScrapItButton.place(

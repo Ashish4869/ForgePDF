@@ -1,6 +1,8 @@
 # ignores below mentioned files to not be pushed to github
 *.pdf
 *.csv
+*.txt
+*.json
 .env
 __pycache__
 *.pyc

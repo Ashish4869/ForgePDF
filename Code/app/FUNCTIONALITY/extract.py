@@ -13,7 +13,6 @@ def extract(file):#function to extract text from pdf file copy it to a txt file
     pdfReader = PyPDF2.PdfFileReader(pdf)
     
     page=pdfReader.getPage(1)
-    print(page.extractText())
     #adding pages to pdf reader obj and extracting the text to a variable
     for pageNo in range(pdfReader.numPages):
         Page = pdfReader.getPage(pageNo)

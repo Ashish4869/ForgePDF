@@ -18,9 +18,6 @@ def center(window):
 # This exportable function is used to execute 
 # queries passed as a parameter
 def executeQuery(query):
-    # mydb = mysql.connector.connect(host="localhost",user="root",password="mysql",database="forgepdf")
-
-    #Changes required to make it work in Ashish's PC
     mydb = mysql.connector.connect(host=os.getenv('HOST'),user=os.getenv('USER'),password=os.getenv('PASSWORD'),database="forgepdf")
     mycursor=mydb.cursor()
     mycursor.execute(query)

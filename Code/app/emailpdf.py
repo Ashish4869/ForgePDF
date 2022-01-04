@@ -3,7 +3,7 @@ from tkinter import filedialog
 from tkinter.messagebox import showinfo, WARNING
 from app import login
 from app import home
-from app.Functionality import emailbot
+from app.FUNCTIONALITY import emailbot
 from app.User import userDetails
 from app.common import center
 import os

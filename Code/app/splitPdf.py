@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter.messagebox import showinfo, WARNING
-from app.Functionality import splitter
+from app.FUNCTIONALITY import splitter, inputValidation
 from app import login
 from app import home
 from app.User import userDetails
@@ -51,15 +51,15 @@ class SplitPdfWIndow():
         def SplitPdf():
             startRange = int(StartingRange.get())
             endRange = int(EndingRange.get())
-            
-            #if starting range is greater than endingrange
-            if(startRange > endRange):
-                showinfo("ERROR" , "Starting range cannt be greater than ending range!!")
-                return
-
-            showPdfSplitMessage()
-
-            splitter.spliter(startRange , endRange , PdfToSplit[0])
+                
+            condition = inputValidation.splitVal(startRange, endRange)
+            if condition != True:
+                showinfo('Error', condition['error'])
+                window.destroy()
+                home.HomeWindow()
+            else:
+                showPdfSplitMessage()
+                splitter.spliter(startRange , endRange , PdfToSplit[0])
 
        
         #shows the selected pdf along with the name

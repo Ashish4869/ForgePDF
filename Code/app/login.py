@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter.messagebox import showinfo, WARNING
 from app import signup, home
 import mysql.connector
+from app.FUNCTIONALITY import inputValidation
 from app.User import userDetails
 import os
 
@@ -12,38 +13,39 @@ def loadLogIn(window):
         signup.loadSignUp(window)
 
     def SubmitDetails(name, password):
-        # TODO: Implement input validation
-        
         # storing the values from the entry fields
-        # name = NameEntry.get()
-        # pasword = PasswordEntry.get()
-        # creating a mysql connection
-        mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
-        mycursor = mydb.cursor()
-        # getting all the user data from the database
-        mycursor.execute("select name, password, user_id from users where name='" + name + "'")
-        # selecting only the first row from the fetched data
-        result = mycursor.fetchone()
-
-        # checking if the 'name' exists in the database
-        if result == None:
-            showinfo('Error', 'Name not found.', icon=WARNING)
-        # checking if the 'password' matches the one in the database
-        elif password != result[1]:
-            showinfo('Error', 'Invalid Password!.', icon=WARNING)
-        # else, successfull login
+        condition = inputValidation.loginVal(name, password)
+        if condition != True:
+            showinfo('Error', condition['error'])
         else:
-            showinfo('Successfull', 'You have successfully logged in!')
-                # destroy the current window instance (SignUpWindow)
-            
-            #Stores the UID in a py file
-            userDetails.setUID(result[2])
-            # print(result)
+            # creating a mysql connection
+            mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
+            mycursor = mydb.cursor()
+            # getting all the user data from the database
+            mycursor.execute("select name, password, user_id from users where name='" + name + "'")
+            # selecting only the first row from the fetched data
+            result = mycursor.fetchone()
 
-            window.destroy()
-            # call the Home window class
-            home.HomeWindow()
-        mydb.close()
+            # checking if the 'name' exists in the database
+            if result == None:
+                showinfo('Error', 'Name not found.', icon=WARNING)
+            # checking if the 'password' matches the one in the database
+            elif password != result[1]:
+                showinfo('Error', 'Invalid Password!.', icon=WARNING)
+            # else, successfull login
+            else:
+                showinfo('Successfull', 'You have successfully logged in!')
+                    # destroy the current window instance (SignUpWindow)
+                
+                #Stores the UID in a py file
+                userDetails.setUID(result[2])
+                userDetails.setUsername(name)
+                # print(result)
+
+                window.destroy()
+                # call the Home window class
+                home.HomeWindow()
+            mydb.close()
     
     def btn_clicked():
         print("Button Clicked")

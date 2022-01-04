@@ -1,12 +1,14 @@
 from tkinter import *
 from tkinter import filedialog
+from tkinter.messagebox import showinfo
 from app import home
+from app.FUNCTIONALITY import decrypt, inputValidation
 from app.common import center
 import os
 
 class decryptWindow():
     def __init__(self):
-
+        self.pdfToDecrypt = ''
 
         #Button Functions
         def toHomePage():
@@ -25,14 +27,25 @@ class decryptWindow():
             #adds the value in the textbox and displays it
             PDFTextBoxEntry.insert('0' , filename)
             PDFTextBoxEntry.bind("<Key>", lambda e: "break")
+            self.pdfToDecrypt = attachmentPathvar
             showDecryptPdf()
 
 
         # function to decrypt the pdf
         def DecryptPdf():
-            # TODO: decrypt the pdf
             # TODO: Input validation
-            showPdfDecryptMessage()
+            password = PasswordEntry.get()
+            try:
+                condition = inputValidation.decryptVal(password)
+                if condition != True:
+                    showinfo('Error', condition['error'])
+                else:
+                    decrypt.decrypt(self.pdfToDecrypt, password)
+                    showPdfDecryptMessage()
+            except:
+                showinfo("ERROR" , "Please enter the correct password")
+                window.destroy()
+                home.HomeWindow()
 
        
         #shows the selected pdf along with the name

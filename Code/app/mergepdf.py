@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter.messagebox import showinfo, WARNING
-from app.Functionality import merge
+from app.FUNCTIONALITY import merge
 from app.User import userDetails
 from app import login
 from app import home
