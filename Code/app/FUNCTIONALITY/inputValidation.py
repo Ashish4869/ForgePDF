@@ -86,7 +86,7 @@ def scrappyVal(product_name):
 # function to check whether the string given is containing only numbers
 def splitVal(start, end):
     #if starting range is greater than endingrange
-    if(start > start):
+    if(start > end):
         return ("error" , "Starting range cannt be greater than ending range!!")
     if start.isdecimal()==False and end.isdecimal()==False:
         return {"error": "Please enter a valid range"}

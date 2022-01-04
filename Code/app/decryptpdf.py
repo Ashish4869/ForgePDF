@@ -35,17 +35,17 @@ class decryptWindow():
         def DecryptPdf():
             # TODO: Input validation
             password = PasswordEntry.get()
-            try:
-                condition = inputValidation.decryptVal(password)
-                if condition != True:
-                    showinfo('Error', condition['error'])
-                else:
-                    decrypt.decrypt(self.pdfToDecrypt, password)
-                    showPdfDecryptMessage()
-            except:
-                showinfo("ERROR" , "Please enter the correct password")
-                window.destroy()
-                home.HomeWindow()
+            # try:
+            #     condition = inputValidation.decryptVal(password)
+            #     if condition != True:
+            #         showinfo('Error', condition['error'])
+            #     else:
+            decrypt.decrypt(self.pdfToDecrypt, password)
+            #         showPdfDecryptMessage()
+            # except:
+            #     showinfo("ERROR" , "Please enter the correct password")
+            #     window.destroy()
+            #     home.HomeWindow()
 
        
         #shows the selected pdf along with the name

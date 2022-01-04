@@ -35,17 +35,17 @@ class encryptWindow():
         # function to encrypt the pdf
         def EncryptPdf():
             password = PasswordEntry.get()
-            try:
-                condition = inputValidation.encryptVal(password)
-                if condition != True:
-                    showinfo('Error', condition['error'])
-                else:
-                    encrypt.encrypt(self.pdfToEncrypt, password)
-                    showPdfEncryptMessage()
-            except:
-                showinfo("ERROR" , "An error has occurred!")
-                window.destroy()
-                home.HomeWindow()
+            # try:
+            #     condition = inputValidation.encryptVal(password)
+            #     if condition != True:
+            #         showinfo('Error', condition['error'])
+            #     else:
+            encrypt.encrypt(self.pdfToEncrypt, password)
+            #         showPdfEncryptMessage()
+            # except:
+            #     showinfo("ERROR" , "An error has occurred!")
+            #     window.destroy()
+            #     home.HomeWindow()
 
        
         #shows the selected pdf along with the name
