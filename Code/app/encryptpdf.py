@@ -41,7 +41,7 @@ class encryptWindow():
             #         showinfo('Error', condition['error'])
             #     else:
             encrypt.encrypt(self.pdfToEncrypt, password)
-            #         showPdfEncryptMessage()
+            showPdfEncryptMessage()
             # except:
             #     showinfo("ERROR" , "An error has occurred!")
             #     window.destroy()
