@@ -20,34 +20,34 @@ def loadSignUp(window):
         phone = PhoneEntry.get()
         password = PasswordEntry.get()
 
-        condition = inputValidation.signupVal(name, email, phone, password)
-        if condition != True:
-            showinfo('Error', condition['error'])
-        else:
-            # creating a query and checking if there exist a account before signing up
-            mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
-            mycursor = mydb.cursor()
-            # getting all the user data from the database
-            mycursor.execute("select name, password from users where name='" + name + "'")
-            # selecting only the first row from the fetched data
-            result = mycursor.fetchone()
+    # condition = inputValidation.signupVal(name, email, phone, password)
+    # if condition != True:
+    #     showinfo('Error', condition['error'])
+    # else:
+        # creating a query and checking if there exist a account before signing up
+        mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
+        mycursor = mydb.cursor()
+        # getting all the user data from the database
+        mycursor.execute("select name, password from users where name='" + name + "'")
+        # selecting only the first row from the fetched data
+        result = mycursor.fetchone()
 
+        
             
-                
-            # creating a query to insert the user details into the database
-            query = "insert into users (name, email, phone, password) values('" + name + "','" + email + "','" + phone + "','" + password + "')"
-            executeQuery(query)
+        # creating a query to insert the user details into the database
+        query = "insert into users (name, email, phone, password) values('" + name + "','" + email + "','" + phone + "','" + password + "')"
+        executeQuery(query)
 
-            # TODO: Display status message (success/failure)
-            if result == None:
-                showinfo('Successfull','You have successfully registered an account! Please login to continue!')
-                
-                userDetails.setUID('')
-                # call the Home window class
-                login.loadLogIn(window)
+        # TODO: Display status message (success/failure)
+        if result == None:
+            showinfo('Successfull','You have successfully registered an account! Please login to continue!')
+            
+            userDetails.setUID('')
+            # call the Home window class
+            login.loadLogIn(window)
 
-            elif result != None:
-                showinfo("ERROR" , "A user with this name already exist, please choose a new one!")
+        elif result != None:
+            showinfo("ERROR" , "A user with this name already exist, please choose a new one!")
 
         
 

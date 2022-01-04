@@ -16,7 +16,7 @@ class ScrapyWindow  ():
         
         def handleStart():
             #getting the input from the text box
-            itemToScrap = InputEntry.get()
+            # itemToScrap = InputEntry.get()
             
             #this doesnt work cause threads are messing things up
             #Checking if the input box in empty , if so prevent from scrapping
@@ -25,11 +25,11 @@ class ScrapyWindow  ():
             #     home.HomeWindow()
             #     window.destroy()
 
-            condition = inputValidation.scrappyVal(itemToScrap)
-            if condition != True:
-                showinfo('Error', condition['error'])
-            else:
-                handleThread()
+        # condition = inputValidation.scrappyVal(itemToScrap)
+        # if condition != True:
+        #     showinfo('Error', condition['error'])
+        # else:
+            handleThread()
 
         def handleThread():
             threading.Timer(0.1, ScrapIt).start()

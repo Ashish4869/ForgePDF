@@ -25,12 +25,12 @@ class extractWindow():
             showExtractPDF()
 
         def extractPDF():
-            condition = inputValidation.extractVal(self.pdfToExtract)
-            if condition != True:
-                showinfo('Error', condition['error'])
-            else:
-                extract.extract(self.pdfToExtract)
-                showExtractedMessage()
+        # condition = inputValidation.extractVal(self.pdfToExtract)
+        # if condition != True:
+        #     showinfo('Error', condition['error'])
+        # else:
+            extract.extract(self.pdfToExtract)
+            showExtractedMessage()
 
         #shows the selected pdf along with the name
         def showExtractPDF():
