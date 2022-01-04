@@ -104,18 +104,25 @@ class MergePdfWindow():
             width = 204,
             height = 46)
 
+            #Move the file to specific folder and move one copy to desktop
             MoveToFolder()
 
         #Moves the files to a specific directory and copies to desktop
         def MoveToFolder():
-            shutil.move('Merge.pdf' , 'C:\\Users\\User\\Downloads\\ForgePdf')
-            shutil.copy('C:\\Users\\User\\Downloads\\ForgePdf\\Merge.pdf' , 'C:\\Users\\User\\Desktop')
-            add = 'C:\\Users\\User\\Downloads\\ForgePdf\\Merge.pdf'
-            saveToDB(add)
+
+            #increment the count of the pdf to prevent overwriting
+            userDetails.IncrementCount()
+            add = 'C:\\Users\\User\\Downloads\\ForgePdf\\MergePdf' + str(userDetails.getCount()+1) + '.pdf'
+            shutil.move('Merge.pdf' , add)
+            shutil.copy(add , 'C:\\Users\\User\\Desktop')
+            
+            #converts the address to form that can be saved in the database
+            newAdd = userDetails.ConvertAddress(add)
+            saveToDB(newAdd)
         
         #Store the value in database
         def saveToDB(add):
-            executeQuery("insert into files (file_address , user_id) values (' " + add + "',' " + str(userDetails.getUID()) + "')")
+            executeQuery("insert into files (file_address , user_id) values ('" + add + "',' " + str(userDetails.getUID()) + "')")
 
 
 

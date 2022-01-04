@@ -331,6 +331,7 @@ class HomeWindow():
 
         uid.append(userDetails.getUID())
         
+#-------------SQL QUERY------------------
         # creating a mysql connection
         mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
         mycursor = mydb.cursor()
@@ -339,6 +340,16 @@ class HomeWindow():
         # selecting only the first row from the fetched data
         result = mycursor.fetchall()
         print(result)
+
+        # creating a mysql connection
+        mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
+        mycursor = mydb.cursor()
+        # getting all the user data from the database
+        mycursor.execute("select count(*) from files")
+        # selecting only the first row from the fetched data
+        result1 = mycursor.fetchone()
+        print(result1)
+        userDetails.SetCount(result1[0])
 
 
 
