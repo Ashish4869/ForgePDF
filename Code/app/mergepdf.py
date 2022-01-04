@@ -5,8 +5,9 @@ from app.FUNCTIONALITY import merge
 from app.User import userDetails
 from app import login
 from app import home
-from app.common import center
+from app.common import center,executeQuery
 import os
+import shutil
 
 class MergePdfWindow():
     def __init__(self):
@@ -102,6 +103,27 @@ class MergePdfWindow():
             x = 1024, y = 651,
             width = 204,
             height = 46)
+
+            #Move the file to specific folder and move one copy to desktop
+            MoveToFolder()
+
+        #Moves the files to a specific directory and copies to desktop
+        def MoveToFolder():
+
+            #increment the count of the pdf to prevent overwriting
+            userDetails.IncrementCount()
+            add = 'C:\\Users\\User\\Downloads\\ForgePdf\\MergePdf' + str(userDetails.getCount()+1) + '.pdf'
+            shutil.move('Merge.pdf' , add)
+            shutil.copy(add , 'C:\\Users\\User\\Desktop')
+            
+            #converts the address to form that can be saved in the database
+            newAdd = userDetails.ConvertAddress(add)
+            saveToDB(newAdd)
+        
+        #Store the value in database
+        def saveToDB(add):
+            executeQuery("insert into files (file_address , user_id) values ('" + add + "',' " + str(userDetails.getUID()) + "')")
+
 
 
 

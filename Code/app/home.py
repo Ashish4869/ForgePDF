@@ -277,6 +277,26 @@ class HomeWindow():
             x = 748, y = 417,
             width = 237,
             height = 153)
+
+        #-------------SQL QUERY------------------
+        # creating a mysql connection
+        mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
+        mycursor = mydb.cursor()
+        # getting all the user data from the database
+        mycursor.execute("select file_address from files where user_id='" + str(uid[0]) + "' order by file_id desc")
+        # selecting only the first row from the fetched data
+        result = mycursor.fetchall()
+        print(result)
+
+        # creating a mysql connection
+        mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
+        mycursor = mydb.cursor()
+        # getting all the user data from the database
+        mycursor.execute("select count(*) from files")
+        # selecting only the first row from the fetched data
+        result1 = mycursor.fetchone()
+        print(result1)
+        userDetails.SetCount(result1[0])
         
         
         Username = Label(text = userDetails.getUsername(), font=('Poppins', 25, BOLD), fg= "#5BC0BE",bg = "#0B132B")
@@ -362,6 +382,8 @@ class HomeWindow():
         FeelsLikeTextBox = canvas.create_image(
             435.0, 381.5,
             image = FeelsLikeTextBoxImage)
+        uid.append(userDetails.getUID())
+        
 
         FeelsLikeTextBoxEntry = Entry(
             bd = 0,

@@ -1,7 +1,11 @@
 #Stores the current users id ,selectedpdf and name here
+from ntpath import join
+
+
 uid = []
 username = []
 selectPdf = []
+Currentcount = [0]
 
 #function to SET the UID of the user who logged in
 def setUID(useruid):
@@ -55,3 +59,25 @@ def GetselectedPdfBool():
 
 def NotSelectPdfBool():
     hasSelectpdf[0] = False
+
+
+#Increments the count of the pdfs
+def IncrementCount():
+    Currentcount[0]+=1
+
+
+#gets the count of the pdf
+def getCount():
+    return Currentcount[0]
+
+#gets the count from DB
+def SetCount(count):
+    Currentcount[0] = count
+
+#converts the address to a form which can be saved in DB
+def ConvertAddress(add):
+    lsit = add.split('\\')
+    print(lsit)
+    newadd = '/'.join(lsit)
+    print(newadd)
+    return newadd
