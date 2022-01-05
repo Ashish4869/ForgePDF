@@ -100,9 +100,6 @@ def encryptVal(password):
     # if the password is empty
     if len(password) == 0:
         return {"error": "Please enter a valid password"}
-    # if the password is less than 8 characters
-    elif len(password) < 6:
-        return {"error": "Please enter a password of atleast 6 characters"}
     else:
         return True
 
@@ -112,9 +109,6 @@ def decryptVal(password):
     # if the password is empty
     if len(password) == 0:
         return {"error": "Please enter a valid password"}
-    # if the password is less than 8 characters
-    elif len(password) < 6:
-        return {"error": "Please enter a password of atleast 6 characters"}
     else:
         return True
 

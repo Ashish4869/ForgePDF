@@ -41,7 +41,7 @@ class decryptWindow():
             #         showinfo('Error', condition['error'])
             #     else:
             decrypt.decrypt(self.pdfToDecrypt, password)
-            #         showPdfDecryptMessage()
+            showPdfDecryptMessage()
             # except:
             #     showinfo("ERROR" , "Please enter the correct password")
             #     window.destroy()
