@@ -37,6 +37,10 @@ class SplitPdfWIndow():
             #gets attachement from user
             attachmentPathvar = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
             filename = os.path.basename(attachmentPathvar)
+
+            if len(attachmentPathvar) == 0:
+                showinfo("ERROR" , "Please select a pdf file")
+                return
             
             #stores attachement in list
             PdfToSplit.append(attachmentPathvar)
@@ -49,24 +53,27 @@ class SplitPdfWIndow():
 
         #checks the condition and splits the pdf
         def SplitPdf():
-            startRange = StartingRange.get()
-            endRange = EndingRange.get()
-            print(startRange)
-                
-            condition = inputValidation.splitVal(startRange, endRange)
-            print(condition)
-            if condition != True:
-                showinfo('Error', condition['error'])
+            try:
+                startRange = StartingRange.get()
+                endRange = EndingRange.get()
+                print(startRange)
+                    
+                condition = inputValidation.splitVal(startRange, endRange)
+                print(condition)
+                if condition != True:
+                    showinfo('Error', condition['error'])
+                else:
+                    showPdfSplitMessage()
+                    startRan = int(startRange)
+                    endRan = int(endRange)
+
+                    splitter.spliter(startRan , endRan , PdfToSplit[0])
+                    #Move the file to specific folder and move one copy to desktop
+                    MoveToFolder()
+            except:
+                showinfo("ERROR" , "An error has occurred!")
                 window.destroy()
                 home.HomeWindow()
-            else:
-                showPdfSplitMessage()
-                startRan = int(startRange)
-                endRan = int(endRange)
-
-                splitter.spliter(startRan , endRan , PdfToSplit[0])
-                #Move the file to specific folder and move one copy to desktop
-                MoveToFolder()
 
         #Moves the files to a specific directory and copies to desktop
         def MoveToFolder():

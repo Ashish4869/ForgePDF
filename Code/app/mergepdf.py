@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter.messagebox import showinfo, WARNING
+
+import PyPDF2
 from app.FUNCTIONALITY import merge
 from app.User import userDetails
 from app import login
@@ -30,13 +32,16 @@ class MergePdfWindow():
 
             #shows error if the user tries to choose a pdf file after 3 files have already been choosed
             if Pdf1name.get() != '' and Pdf2name.get() != '' and Pdf3name.get() != '':
-                showinfo("ERROR" , "You cannot add more than 3 pdfs to merge , sorry the inconvience")
+                showinfo("ERROR" , "You cannot add more than 3 pdfs to merge, sorry for the inconvenience!")
                 canget = False
 
             #opens the file box , gets the abs path of the file and appends in list
             if canget == True:    
                 fileaddress = filedialog.askopenfilename(initialdir= os.getenv('MERGE_INITIAL_DIR'), title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
                 print(fileaddress)
+                if len(fileaddress) == 0:
+                    showinfo("ERROR" , "Please select a pdf file")
+                    return
                 pdfstomerge.append(fileaddress)
                 filename = os.path.basename(fileaddress)
                 print(filename)
@@ -94,18 +99,23 @@ class MergePdfWindow():
 
         #merges the files , shows the merge message and hides the button
         def mergePdf():
-            print(pdfstomerge)
-            merge.merge(pdfstomerge) #call the merge function to merge
-            MergeButton.pack_forget()
-            FilesMergedLabel.pack()
+            try:
+                print(pdfstomerge)
+                merge.merge(pdfstomerge) #call the merge function to merge
+                MergeButton.pack_forget()
+                FilesMergedLabel.pack()
 
-            FilesMergedLabel.place(
-            x = 1024, y = 651,
-            width = 204,
-            height = 46)
+                FilesMergedLabel.place(
+                x = 1024, y = 651,
+                width = 204,
+                height = 46)
 
-            #Move the file to specific folder and move one copy to desktop
-            MoveToFolder()
+                #Move the file to specific folder and move one copy to desktop
+                MoveToFolder()
+            except:
+                showinfo("ERROR" , "An error has occurred")
+                window.destroy()
+                home.HomeWindow()
 
         #Moves the files to a specific directory and copies to desktop
         def MoveToFolder():

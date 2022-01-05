@@ -15,23 +15,20 @@ class ScrapyWindow  ():
             home.HomeWindow()
         
         def handleStart():
-            #getting the input from the text box
-            itemToScrap = InputEntry.get()
-            new_item = itemToScrap.strip()
-            
-            
-            #this doesnt work cause threads are messing things up
-            #Checking if the input box in empty , if so prevent from scrapping
-            # if itemToScrap.strip() == '':
-            #     showinfo('Error' , 'Something went wrong')
-            #     home.HomeWindow()
-            #     window.destroy()
+            try:
+                #getting the input from the text box
+                itemToScrap = InputEntry.get()
+                new_item = itemToScrap.strip()
 
-            condition = inputValidation.scrappyVal(new_item)
-            if condition != True:
-                showinfo('Error', condition['error'])
-            else:
-                handleThread()
+                condition = inputValidation.scrappyVal(new_item)
+                if condition != True:
+                    showinfo('Error', condition['error'])
+                else:
+                    handleThread()
+            except:
+                showinfo("ERROR" , "An error has occurred!")
+                window.destroy()
+                home.HomeWindow()
         
         #Moves the files to desktop
         def MoveToDesktop():

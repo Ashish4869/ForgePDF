@@ -4,7 +4,7 @@ from tkinter.font import families
 from tkinter.messagebox import showinfo, WARNING
 from app import login
 from app import home
-from app.FUNCTIONALITY import emailbot
+from app.FUNCTIONALITY import emailbot, emailvalidateapi
 from app.User import userDetails
 from app.common import center
 import os
@@ -26,18 +26,17 @@ class EmailPdfWindow():
             # call the login up window class
             home.HomeWindow()
 
-        def btn_clicked():
-            print("ButtonClicked")
-
         
         def getAttachment():
             #gets attachement from user
             attachmentPathvar = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
             filename = os.path.basename(attachmentPathvar)
+            if len(attachmentPathvar) == 0:
+                showinfo("ERROR" , "Please select a pdf file")
+                return
 
             #stores attachement in list
             attachmentPath.append(attachmentPathvar)
-            print(attachmentPath)
 
             #adds the value in the textbox and displays it
             TextBoxAttachmentEntry.insert('0' , 'Attachment : ' + filename)
@@ -51,10 +50,12 @@ class EmailPdfWindow():
             #gets csv from user
             csvAddressvar = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("CSV files","*.csv*"),("all files","*.*")))
             filename = os.path.basename(csvAddressvar)
+            if len(csvAddressvar) == 0:
+                showinfo("ERROR" , "Please select a csv file")
+                return
 
             #stores csv in list
             csvAddress.append(csvAddressvar)
-            print(csvAddress)
 
             #adds the value in the textbox and displays it
             TextBoxCSVEntry.insert('0' , 'CSV File : ' + filename)
@@ -63,28 +64,36 @@ class EmailPdfWindow():
 
         
         def SendEmail():
-            # TODO: Check if email is valid (email api call through flask)
-            toaddress = EmailEntry.get()
+            try:
+                toaddress = EmailEntry.get()
 
-            #checks if the attachment is added or not
-            if len(attachmentPath) == 0:
-                showinfo("ERROR" , "Please choose an attachment")
-                return
+                # check if the email is valid or not
+                condition = emailvalidateapi.getEmailValidate(toaddress)
+                if 'error' in condition:
+                    showinfo("Error", condition['error'])
+                    return
+                #checks if the attachment is added or not
+                if len(attachmentPath) == 0:
+                    showinfo("ERROR" , "Please choose an attachment")
+                    return
 
-            #doesntsend email if there is ambiguity
-            if toaddress != '' and len(csvAddress) != 0 :
-                showinfo("ERROR" , "Please choose any one way for email receipients.")
-                EmailEntry.insert('0' , '')
-                return
+                #doesntsend email if there is ambiguity
+                if toaddress != '' and len(csvAddress) != 0 :
+                    showinfo("ERROR" , "Please choose any one way for email receipients.")
+                    EmailEntry.insert('0' , '')
+                    return
 
-            #sends the email and shows that the email is sent
-            showEmailSent()
-            #giving priority on the csv emails then the ones typed
-            if len(csvAddress) != 0 :
-                emailbot.csvToStr(csvAddress[0] , attachmentPath[0])
-            else:
-                emailbot.emailbot(toaddress , attachmentPath[0])
-
+                #sends the email and shows that the email is sent
+                showEmailSent()
+                #giving priority on the csv emails then the ones typed
+                if len(csvAddress) != 0 :
+                    emailbot.csvToStr(csvAddress[0] , attachmentPath[0])
+                else:
+                    emailbot.emailbot(toaddress , attachmentPath[0])
+            except:
+                showinfo("ERROR" , "An error has occurred!")
+                window.destroy()
+                home.HomeWindow()
             
         #shows the the atttachment in the text box
         def showAttachment():

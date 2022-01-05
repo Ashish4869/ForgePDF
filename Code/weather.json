@@ -1,7 +1,1 @@
-{
-  "description": "haze", 
-  "feels_like": 33.01, 
-  "humidity": 48, 
-  "temp": 31.48, 
-  "wind_speed": 2.57
-}
+{"temp": 25.48, "feels_like": 25.99, "humidity": 73, "description": "clear sky", "wind_speed": 1.54}

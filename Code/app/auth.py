@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter.messagebox import showerror
 from app.login import loadLogIn
 from app.common import center
 from app.FUNCTIONALITY import weatherapi
@@ -11,7 +12,7 @@ class AuthWindow():
         center(window)
         window.configure(bg = "#0b132b")
 
-        # calling the weather api and storing the JSON object in the variable weatherData
+        # calling the weather api and storing the JSON object in tthe json file
         weatherapi.getWeatherData()
 
         # Call the loadLogIn function to load the login screen

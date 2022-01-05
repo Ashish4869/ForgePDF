@@ -20,11 +20,15 @@ class decryptWindow():
 
         #gets the pdf to decrypt
         def getPdf():
-
+            if self.pdfToDecrypt != '':
+                showinfo("ERROR" , "You can encrypt only one pdf at a time")
+                return
             #gets attachement from user
             attachmentPathvar = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
             filename = os.path.basename(attachmentPathvar)
-
+            if len(attachmentPathvar) == 0:
+                showinfo("ERROR" , "Please select a pdf file")
+                return
             #adds the value in the textbox and displays it
             PDFTextBoxEntry.insert('0' , filename)
             PDFTextBoxEntry.bind("<Key>", lambda e: "break")
@@ -34,8 +38,11 @@ class decryptWindow():
 
         # function to decrypt the pdf
         def DecryptPdf():
+            # getting the password 
             password = PasswordEntry.get()
+            # stripping the password and storing it in a variable
             new_password = password.strip()
+            # exception handling 
             try:
                 condition = inputValidation.decryptVal(new_password)
                 if condition != True:

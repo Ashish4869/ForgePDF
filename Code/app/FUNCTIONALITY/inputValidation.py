@@ -106,8 +106,6 @@ def encryptVal(password):
 # validates the password field
 def decryptVal(password):
     # if the password is empty
-    print(len(password))
-    print(password)
     if len(password) == 0:
         return {"error": "Please enter a valid password"}
     else:

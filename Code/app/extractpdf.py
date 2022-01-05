@@ -17,27 +17,39 @@ class extractWindow():
             home.HomeWindow()
 
         def getPDF():
+            if self.pdfToExtract != '':
+                showinfo("ERROR" , "You can encrypt only one pdf at a time")
+                return
             attachmentPathvar = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
             filename = os.path.basename(attachmentPathvar)
+            if len(attachmentPathvar) == 0:
+                showinfo("ERROR" , "Please select a pdf file")
+                return
             PDFTextBoxEntry.insert('0' , filename)
             PDFTextBoxEntry.bind("<Key>", lambda e: "break")
             self.pdfToExtract = attachmentPathvar
             showExtractPDF()
 
         def extractPDF():
-            condition = inputValidation.extractVal(self.pdfToExtract)
-            if condition != True:
-                showinfo('Error', condition['error'])
-            else:
-                isEmpty = extract.extract(self.pdfToExtract)
-                if isEmpty:
-                    showinfo('Error', 'Could not extract text from this pdf')
-                    # if the extracted textfile is empty, go back to home frame
-                    window.destroy()
-                    home.HomeWindow()    
+            try:
+                condition = inputValidation.extractVal(self.pdfToExtract)
+                if condition != True:
+                    showinfo('Error', condition['error'])
                 else:
-                    MoveToDesktop()
-                    showExtractedMessage()
+                    isEmpty = extract.extract(self.pdfToExtract)
+                    if isEmpty:
+                        showinfo('Error', 'Could not extract text from this pdf')
+                        # if the extracted textfile is empty, go back to home frame
+                        window.destroy()
+                        home.HomeWindow()    
+                    else:
+                        MoveToDesktop()
+                        showExtractedMessage()
+            except:
+                showinfo("ERROR" , "An error has occurred!")
+                window.destroy()
+                home.HomeWindow()
+
         
         #Moves the files to desktop
         def MoveToDesktop():

@@ -43,7 +43,7 @@ def emailbot(toaddress , attachmentPath):#used to send email
     attachment=web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[4]/div/input')
     attachment.send_keys(attachmentPath)
 
-    print("added attachment")
+    print("Added attachment")
     
     web.implicitly_wait(30)
 

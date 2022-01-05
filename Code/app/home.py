@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
+from tkinter.messagebox import showinfo
 from tkinter.font import BOLD
 from app import auth, options, extractpdf, encryptpdf, splitPdf, Scrapy, emailpdf, mergepdf, savedpdfs, decryptpdf
 from app.User import userDetails
@@ -83,8 +84,6 @@ class HomeWindow():
             # call the options up window class
             options.OptionsPdfWindow()
 
-        def btn_clicked():
-            print("ButtonClicked")
 
         #Testing conditional rendering and file open
         # def showfile1():
@@ -111,6 +110,9 @@ class HomeWindow():
 
         # calling the weather api and storing the object in the variable weatherData
         weatherData=weatherapi.loadWeatherData()
+        if 'error' in weatherData:
+            showinfo('ERROR', weatherData['error'])
+            window.destroy()
         print(weatherData)
 
         uid.append(userDetails.getUID())
@@ -309,7 +311,6 @@ class HomeWindow():
             borderwidth = 0,
             bg="#0B132B",
             highlightthickness = 0,
-            command = btn_clicked,
             relief = "flat")
 
         # setting the image for the button based on the description
@@ -601,7 +602,6 @@ class HomeWindow():
                 highlightthickness = 0,
                 background="#1C2541",
                 activebackground="#1C2541",
-                command = btn_clicked,
                 relief = "flat")
 
 

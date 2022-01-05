@@ -70,7 +70,7 @@ def main(search_term):
     writer.writerow(['Product Name', 'Price', 'Rating', 'Review Count', 'Url'])
     writer.writerows(product_list)
     product_list_file.close()
-    print("CSV Generated!!!!")
+    print("CSV Generated!")
     return True
 
 
