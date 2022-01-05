@@ -71,6 +71,7 @@ def main(search_term):
     writer.writerows(product_list)
     product_list_file.close()
     print("CSV Generated!!!!")
+    return True
 
 
 # main(input("Enter The Name Of The Product : "))

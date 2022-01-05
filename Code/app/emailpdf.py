@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
+from tkinter.font import families
 from tkinter.messagebox import showinfo, WARNING
 from app import login
 from app import home
@@ -14,6 +15,7 @@ class EmailPdfWindow():
         #Variable to hold the attachment and csv address
         attachmentPath = []
         csvAddress = []
+        haveAttachment = [False]
 
         #Button Functions
         def toHomePage():
@@ -40,6 +42,7 @@ class EmailPdfWindow():
             #adds the value in the textbox and displays it
             TextBoxAttachmentEntry.insert('0' , 'Attachment : ' + filename)
             TextBoxAttachmentEntry.bind("<Key>", lambda e: "break")
+            haveAttachment[0] = True
             showAttachment()
 
 
@@ -60,6 +63,7 @@ class EmailPdfWindow():
 
         
         def SendEmail():
+            # TODO: Check if email is valid (email api call through flask)
             toaddress = EmailEntry.get()
 
             #checks if the attachment is added or not
@@ -84,11 +88,11 @@ class EmailPdfWindow():
             
         #shows the the atttachment in the text box
         def showAttachment():
-            AddAttachmentButton.pack_forget()
+            AddAttachmentButton.destroy()
             TextBoxAttachmentEntry.pack()
 
             TextBoxAttachmentEntry.place(
-                 x = 50, y = 584,
+            x = 50, y = 584,
             width = 536,
             height = 91)
 
@@ -112,7 +116,7 @@ class EmailPdfWindow():
 
         #shows message that email is sent
         def showEmailSent():
-            SendEmailButton.pack_forget()
+            SendEmailButton.destroy()
             EmailSentLabel.pack()
 
             EmailSentLabel.place(
@@ -300,7 +304,7 @@ class EmailPdfWindow():
         AddAttachmentButton.pack()
 
         
-        if userDetails.GetselectedPdfBool() == False:
+        if userDetails.GetselectedPdfBool() == False and haveAttachment[0] == False:
             AddAttachmentButton.place(
                 x = 50, y = 584,
                 width = 536,

@@ -3,7 +3,7 @@ from tkinter.messagebox import showinfo, WARNING
 from app import login , home
 from app.FUNCTIONALITY import scrapping, inputValidation
 from app.common import center
-import threading
+import threading, shutil
 
 class ScrapyWindow  ():
     def __init__(self):
@@ -16,7 +16,9 @@ class ScrapyWindow  ():
         
         def handleStart():
             #getting the input from the text box
-            # itemToScrap = InputEntry.get()
+            itemToScrap = InputEntry.get()
+            new_item = itemToScrap.strip()
+            
             
             #this doesnt work cause threads are messing things up
             #Checking if the input box in empty , if so prevent from scrapping
@@ -25,11 +27,16 @@ class ScrapyWindow  ():
             #     home.HomeWindow()
             #     window.destroy()
 
-        # condition = inputValidation.scrappyVal(itemToScrap)
-        # if condition != True:
-        #     showinfo('Error', condition['error'])
-        # else:
-            handleThread()
+            condition = inputValidation.scrappyVal(new_item)
+            if condition != True:
+                showinfo('Error', condition['error'])
+            else:
+                handleThread()
+        
+        #Moves the files to desktop
+        def MoveToDesktop():
+            add = 'C:\\Users\\User\\Desktop\\productListFile.csv'
+            shutil.move('productListFile.csv' , add)
 
         def handleThread():
             threading.Timer(0.1, ScrapIt).start()
@@ -39,7 +46,10 @@ class ScrapyWindow  ():
         def ScrapIt():
             itemToScrap = InputEntry.get()
             #call the scrapping function and scrap the details
-            scrapping.main(itemToScrap)
+            isDone = scrapping.main(itemToScrap)
+            if isDone:
+                MoveToDesktop()
+
 
         def btn_clicked():
             print("ButtonClicked")

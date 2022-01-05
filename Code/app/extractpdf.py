@@ -3,7 +3,7 @@ from tkinter.messagebox import showinfo
 from tkinter import filedialog
 from app import home
 from app.common import center
-import os
+import os, shutil
 from app.FUNCTIONALITY import extract, inputValidation
 class extractWindow():
     def __init__(self):
@@ -25,12 +25,25 @@ class extractWindow():
             showExtractPDF()
 
         def extractPDF():
-        # condition = inputValidation.extractVal(self.pdfToExtract)
-        # if condition != True:
-        #     showinfo('Error', condition['error'])
-        # else:
-            extract.extract(self.pdfToExtract)
-            showExtractedMessage()
+            condition = inputValidation.extractVal(self.pdfToExtract)
+            if condition != True:
+                showinfo('Error', condition['error'])
+            else:
+                isEmpty = extract.extract(self.pdfToExtract)
+                if isEmpty:
+                    showinfo('Error', 'Could not extract text from this pdf')
+                    # if the extracted textfile is empty, go back to home frame
+                    window.destroy()
+                    home.HomeWindow()    
+                else:
+                    MoveToDesktop()
+                    showExtractedMessage()
+        
+        #Moves the files to desktop
+        def MoveToDesktop():
+            add = 'C:\\Users\\User\\Desktop\\ExtractedText.txt'
+            shutil.move('output.txt' , add)
+
 
         #shows the selected pdf along with the name
         def showExtractPDF():

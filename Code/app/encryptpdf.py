@@ -2,8 +2,9 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter.messagebox import showinfo
 from app import home
-from app.common import center
-import os
+from app.common import center, executeQuery
+import os, shutil
+from app.User import userDetails
 from app.FUNCTIONALITY import encrypt, inputValidation
 
 class encryptWindow():
@@ -35,17 +36,38 @@ class encryptWindow():
         # function to encrypt the pdf
         def EncryptPdf():
             password = PasswordEntry.get()
-            # try:
-            #     condition = inputValidation.encryptVal(password)
-            #     if condition != True:
-            #         showinfo('Error', condition['error'])
-            #     else:
-            encrypt.encrypt(self.pdfToEncrypt, password)
-            showPdfEncryptMessage()
-            # except:
-            #     showinfo("ERROR" , "An error has occurred!")
-            #     window.destroy()
-            #     home.HomeWindow()
+            new_password = password.strip()
+            try:
+                condition = inputValidation.encryptVal(new_password)
+                if condition != True:
+                    showinfo('Error', condition['error'])
+                else:
+                    encrypt.encrypt(self.pdfToEncrypt, new_password)
+                    showPdfEncryptMessage()
+                    MoveToFolder()
+            except:
+                showinfo("ERROR" , "An error has occurred!")
+                window.destroy()
+                home.HomeWindow()
+
+        
+
+        #Moves the files to a specific directory and copies to desktop
+        def MoveToFolder():
+
+            #increment the count of the pdf to prevent overwriting
+            userDetails.IncrementCount()
+            add = 'C:\\Users\\User\\Downloads\\ForgePdf\\EncryptPdf' + str(userDetails.getCount()+1) + '.pdf'
+            shutil.move('encrypted.pdf' , add)
+            shutil.copy(add , 'C:\\Users\\User\\Desktop')
+            
+            #converts the address to form that can be saved in the database
+            newAdd = userDetails.ConvertAddress(add)
+            saveToDB(newAdd)
+        
+        #Store the value in database
+        def saveToDB(add):
+            executeQuery("insert into files (file_address , user_id) values ('" + add + "',' " + str(userDetails.getUID()) + "')")
 
        
         #shows the selected pdf along with the name

@@ -5,8 +5,8 @@ from app.FUNCTIONALITY import splitter, inputValidation
 from app import login
 from app import home
 from app.User import userDetails
-import os
-from app.common import center
+import os, shutil
+from app.common import center, executeQuery
 
 class SplitPdfWIndow():
     def __init__(self):
@@ -51,15 +51,41 @@ class SplitPdfWIndow():
         def SplitPdf():
             startRange = StartingRange.get()
             endRange = EndingRange.get()
+            print(startRange)
                 
-        # condition = inputValidation.splitVal(startRange, endRange)
-        # if condition != True:
-        #     showinfo('Error', condition['error'])
-        #     window.destroy()
-        #     home.HomeWindow()
-        # else:
-            showPdfSplitMessage()
-            splitter.spliter(startRange , endRange , PdfToSplit[0])
+            condition = inputValidation.splitVal(startRange, endRange)
+            print(condition)
+            if condition != True:
+                showinfo('Error', condition['error'])
+                window.destroy()
+                home.HomeWindow()
+            else:
+                showPdfSplitMessage()
+                startRan = int(startRange)
+                endRan = int(endRange)
+
+                splitter.spliter(startRan , endRan , PdfToSplit[0])
+                #Move the file to specific folder and move one copy to desktop
+                MoveToFolder()
+
+        #Moves the files to a specific directory and copies to desktop
+        def MoveToFolder():
+
+            #increment the count of the pdf to prevent overwriting
+            userDetails.IncrementCount()
+            add = 'C:\\Users\\User\\Downloads\\ForgePdf\\SplitPdf' + str(userDetails.getCount()+1) + '.pdf'
+            shutil.move('output.pdf' , add)
+            shutil.copy(add , 'C:\\Users\\User\\Desktop')
+            
+            #converts the address to form that can be saved in the database
+            newAdd = userDetails.ConvertAddress(add)
+            saveToDB(newAdd)
+        
+        #Store the value in database
+        def saveToDB(add):
+            executeQuery("insert into files (file_address , user_id) values ('" + add + "',' " + str(userDetails.getUID()) + "')")
+
+                
 
        
         #shows the selected pdf along with the name

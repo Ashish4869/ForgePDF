@@ -4,15 +4,17 @@ import re
 def signupVal(name, email, phone, password):
     count = 0
     # re for checking if the name is valid or not
-    nameRe = re.compile(r'([a-z A-Z]{1,})(\s[a-z A-Z]{1,})*')
+    # nameRe = re.compile(r'([a-z A-Z]{1,})(\s[a-z A-Z]{1,})*')
     # re for checking if the email is valid or not
     emailRe = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
     # re for checking if the phone no. is valid or not
     phoneRe = re.compile(r'\d{10}')
     # re for checking if the password is valid or not
-    passwordRe = re.compile(r'.{8,20}')
+    passwordRe = re.compile(r'.{2,20}')
     # checking if the name doesnt contain numbers and is valid
-    if len(nameRe.findall(name.strip()))>=1 and name.strip().isalpha() == True:
+    # if len(nameRe.findall(name.strip()))>=1 and name.strip().isalpha() == True:
+    new_name = name.strip()
+    if not new_name.isdecimal():
         count+=1           
     else:
         return {"error": "Please enter your name in the correct format"}
@@ -50,10 +52,12 @@ def emailVal(toaddress):
 
 #input validation for login
 def loginVal(name, password):
-    nameRe = re.compile(r'([a-z A-Z]{1,})(\s[a-z A-Z]{1,})*')
-    passwordRe = re.compile(r'.{8,20}')
+    # nameRe = re.compile(r'([a-z A-Z]{1,})(\s[a-z A-Z]{1,})*')
+    passwordRe = re.compile(r'.{2,20}')
     loginCounter = 0
-    if len(nameRe.findall(name.strip())) >= 1 and name.isdecimal() != True:
+    # if len(nameRe.findall(name.strip())) >= 1 and name.isdecimal() != True:
+    new_name = name.strip()
+    if not new_name.isdecimal():
         loginCounter = loginCounter + 1
     else:
         return {"error": "Please enter your name in the correct format"}
@@ -68,16 +72,9 @@ def loginVal(name, password):
 
 # input validation for scrappy
 def scrappyVal(product_name):
-    product_name = product_name.strip()
-    productRe = re.compile(r'[A-Za-z0-9-]')
-    productNameList = productRe.findall(product_name)
-    numCounter = 0
-    for name in productNameList:
-        if name.isdecimal() == True:
-            numCounter = numCounter + 1
-        else:
-            continue
-    if numCounter == len(productNameList):
+    if len(product_name) == 0:
+        return {"error": "Please enter a product name"}
+    if product_name.isdecimal():
         return {"error": "Please enter a valid product name"}
     else:
         return True
@@ -85,9 +82,11 @@ def scrappyVal(product_name):
 
 # function to check whether the string given is containing only numbers
 def splitVal(start, end):
+    # the variables start and end are string variables
+    # convert to int for comparing values
     #if starting range is greater than endingrange
-    if(start > end):
-        return ("error" , "Starting range cannt be greater than ending range!!")
+    if (int(start) > int(end)):
+        return {"error": "Starting range cannt be greater than ending range!!"}
     if start.isdecimal()==False and end.isdecimal()==False:
         return {"error": "Please enter a valid range"}
     else:
@@ -107,6 +106,8 @@ def encryptVal(password):
 # validates the password field
 def decryptVal(password):
     # if the password is empty
+    print(len(password))
+    print(password)
     if len(password) == 0:
         return {"error": "Please enter a valid password"}
     else:
@@ -115,7 +116,7 @@ def decryptVal(password):
 # function for validating the inputs from extract pdf page
 # validates the pdf_path which is the absolute path of the pdf file
 def extractVal(pdf_path):
-    # if the password is empty
+    # if the path is empty
     if len(pdf_path) == 0:
         return {"error": "Please input a valid pdf path"}
     else:

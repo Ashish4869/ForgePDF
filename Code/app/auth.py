@@ -12,7 +12,7 @@ class AuthWindow():
         window.configure(bg = "#0b132b")
 
         # calling the weather api and storing the JSON object in the variable weatherData
-        weatherapi.storeWeatherData()
+        weatherapi.getWeatherData()
 
         # Call the loadLogIn function to load the login screen
         loadLogIn(window)

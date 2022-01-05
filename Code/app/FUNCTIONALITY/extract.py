@@ -27,8 +27,8 @@ def extract(file):#function to extract text from pdf file copy it to a txt file
     pdf.close()
 
     if Pages.strip()=='':#checking if the text is empty
-        return False
+        return True
     else:
-        return True 
+        return False 
 
 # extract('3.pdf')
