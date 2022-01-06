@@ -23,7 +23,7 @@ def emailbot(toaddress , attachmentPath):#used to send email
     pwd.send_keys(os.getenv('SELENIUM_PASSWORD')+ Keys.ENTER)  
 
     #waiting for the page to load
-    web.implicitly_wait(50)
+    web.implicitly_wait(100)
 
     #pressing the compose button to create a new email
     web.find_element_by_xpath('/html/body/div[7]/div[3]/div/div[2]/div[1]/div[1]/div[1]/div/div/div/div[1]/div/div').click()

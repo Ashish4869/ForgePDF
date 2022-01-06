@@ -51,6 +51,7 @@ class OptionsPdfWindow():
         window = Tk()
 
         window.geometry("1280x720")
+        window.title('Options Page')
         window.configure(bg = "#0b132b")
         center(window)
 

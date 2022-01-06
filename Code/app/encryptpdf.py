@@ -107,6 +107,7 @@ class encryptWindow():
 
         #Window Config
         window.geometry("1280x720")
+        window.title('Encrypted Page')
         center(window)
         window.configure(bg = "#0b132b")
 

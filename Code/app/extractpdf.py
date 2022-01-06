@@ -90,6 +90,7 @@ class extractWindow():
         window = Tk()
 
         window.geometry("1280x720")
+        window.title('Extract PDF Page')
         center(window)
         window.configure(bg = "#0b132b")
 

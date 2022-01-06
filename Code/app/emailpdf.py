@@ -17,6 +17,7 @@ class EmailPdfWindow():
         csvAddress = []
         haveAttachment = [False]
 
+
         #Button Functions
         def toHomePage():
             #reseting the setting of selected pdf
@@ -64,14 +65,15 @@ class EmailPdfWindow():
 
         
         def SendEmail():
+
             try:
                 toaddress = EmailEntry.get()
-
-                # check if the email is valid or not
-                condition = emailvalidateapi.getEmailValidate(toaddress)
-                if 'error' in condition:
-                    showinfo("Error", condition['error'])
-                    return
+                if len(csvAddress) == 0:
+                    # check if the email is valid or not
+                    condition = emailvalidateapi.getEmailValidate(toaddress)
+                    if 'error' in condition:
+                        showinfo("Error", condition['error'])
+                        return
                 #checks if the attachment is added or not
                 if len(attachmentPath) == 0:
                     showinfo("ERROR" , "Please choose an attachment")
@@ -143,6 +145,7 @@ class EmailPdfWindow():
 
         window.geometry("1280x720")
         window.configure(bg = "#0b132b")
+        window.title('Email Page')
         center(window)
 
 

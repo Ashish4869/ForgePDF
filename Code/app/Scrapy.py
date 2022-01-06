@@ -77,6 +77,7 @@ class ScrapyWindow  ():
         window = Tk()
 
         window.geometry("1280x720")
+        window.title('Scrapy Page')
         center(window)
         window.configure(bg = "#0b132b")
 

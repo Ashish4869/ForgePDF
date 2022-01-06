@@ -48,11 +48,15 @@ class decryptWindow():
                 if condition != True:
                     showinfo('Error', condition['error'])
                 else:
-                    decrypt.decrypt(self.pdfToDecrypt, new_password)
+                    condition = decrypt.decrypt(self.pdfToDecrypt, new_password)
+                    if condition == False:
+                        showinfo("Error", "Please enter the correct password!")
+                        return 
                     showPdfDecryptMessage()
                     MoveToFolder()
-            except:
-                showinfo("ERROR" , "Please enter the correct password")
+            except Exception as e:
+                print(e)
+                showinfo("ERROR" , "An error has occurred!")
                 window.destroy()
                 home.HomeWindow()
 
@@ -106,6 +110,7 @@ class decryptWindow():
 
         #Window Config
         window.geometry("1280x720")
+        window.title('Decrypt Pdf')
         center(window)
         window.configure(bg = "#0b132b")
 

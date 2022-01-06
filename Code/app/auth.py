@@ -8,7 +8,7 @@ class AuthWindow():
     def __init__(self):
         window = Tk()
         window.geometry("1280x720")
-        window.title('Log In Page')
+        window.title('Auth Page')
         center(window)
         window.configure(bg = "#0b132b")
 

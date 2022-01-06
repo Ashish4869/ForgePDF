@@ -141,6 +141,7 @@ class MergePdfWindow():
         window = Tk()
 
         window.geometry("1280x720")
+        window.title('Merge PDF Page')
         window.configure(bg = "#0b132b")
         center(window)
 
