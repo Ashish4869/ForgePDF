@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter.messagebox import showinfo
+from tkinter.messagebox import showwarning, showerror, showinfo
 import mysql.connector
 from app import login
 from app.FUNCTIONALITY import inputValidation
@@ -23,7 +23,7 @@ def loadSignUp(window):
 
             condition = inputValidation.signupVal(name, email, phone, password)
             if condition != True:
-                showinfo('Error', condition['error'])
+                showwarning('Error', condition['error'])
             else:
                 # creating a query and checking if there exist a account before signing up
                 mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
@@ -48,17 +48,14 @@ def loadSignUp(window):
                     login.loadLogIn(window)
 
                 elif result != None:
-                    showinfo("ERROR" , "A user with this name already exist, please choose a new one!")
+                    showwarning("Error" , "A user with this name already exist, please choose a new one!")
         except:
-            showinfo('Error', 'An error has occurred.')
-        
-
-    def btn_clicked():
-        print("Button Clicked")
-
+            showerror('Error', 'An error has occurred.')
+    
 
     signup_frame=Frame(window,width=1280,height=720,bg='#0b132b')
     signup_frame.place(x=0,y=0)
+
     # Creating a Canvas
     signup_canvas = Canvas(
         signup_frame,
@@ -78,7 +75,7 @@ def loadSignUp(window):
         640.0, 326.5,
         image=background_img)
 
-        # Image for Sign up
+    # Image for Sign up
     SignUpImage = PhotoImage(file = f"./images/signup/SignUp.png")
     SignUpLabel = Label(image=SignUpImage)
     SignUpLabel.image = SignUpImage
@@ -90,7 +87,6 @@ def loadSignUp(window):
         highlightthickness = 0,
         background= "#1C2541",
         activebackground= "#1C2541",
-        command = btn_clicked,
         relief = "flat")
 
 
@@ -235,11 +231,3 @@ def loadSignUp(window):
         height = 38)
     
     signup_canvas.pack()
-
-    # Additional window config
-    # window.resizable(False, False)
-    # window.mainloop()
-
-    
-
-

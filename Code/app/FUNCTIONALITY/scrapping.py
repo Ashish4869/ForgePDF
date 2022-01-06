@@ -3,27 +3,25 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from app import Scrapy
 import os
-# test1
+
 from selenium.webdriver.chrome.options import Options
-# test2
+
 options = Options()
 options.add_argument("--headless")
+
+
 # URL GENERATOR
-
-
 def get_url(search_term):
     search_term = search_term.replace(' ', '+')
     url = f'https://www.amazon.in/s?k={search_term}&ref=nb_sb_noss_1'+'&page={}'
     return url
 
+
 # URL ITEM EXTRACTOR
-
-
 def extract_record(item):
     # product name and url extracter
     atag = item.h2.a
     product_name = atag.text.strip()
-    # product_url = 'https://www.amazon.com'+atag.get('href') #to extract URL (later we can decide)
 
     try:
         # price extracter
@@ -72,6 +70,3 @@ def main(search_term):
     product_list_file.close()
     print("CSV Generated!")
     return True
-
-
-# main(input("Enter The Name Of The Product : "))

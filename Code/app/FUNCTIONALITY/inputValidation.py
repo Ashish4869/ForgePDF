@@ -3,17 +3,15 @@ import re
 # function to validate the inputs from the signup page
 def signupVal(name, email, phone, password):
     count = 0
-    # re for checking if the name is valid or not
-    # nameRe = re.compile(r'([a-z A-Z]{1,})(\s[a-z A-Z]{1,})*')
+    # stripping the name and storing it in new_name variable
+    new_name = name.strip()
     # re for checking if the email is valid or not
     emailRe = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b')
     # re for checking if the phone no. is valid or not
     phoneRe = re.compile(r'\d{10}')
     # re for checking if the password is valid or not
     passwordRe = re.compile(r'.{2,20}')
-    # checking if the name doesnt contain numbers and is valid
-    # if len(nameRe.findall(name.strip()))>=1 and name.strip().isalpha() == True:
-    new_name = name.strip()
+    # checking if the name is not a decimal
     if not new_name.isdecimal():
         count+=1           
     else:
@@ -52,10 +50,9 @@ def emailVal(toaddress):
 
 #input validation for login
 def loginVal(name, password):
-    # nameRe = re.compile(r'([a-z A-Z]{1,})(\s[a-z A-Z]{1,})*')
     passwordRe = re.compile(r'.{2,20}')
     loginCounter = 0
-    # if len(nameRe.findall(name.strip())) >= 1 and name.isdecimal() != True:
+    # stripping the name and storing it in new_name variable
     new_name = name.strip()
     if not new_name.isdecimal():
         loginCounter = loginCounter + 1

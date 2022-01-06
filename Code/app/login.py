@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter.messagebox import showinfo, WARNING
+from tkinter.messagebox import showinfo, showwarning, showerror
 from app import signup, home
 import mysql.connector
 from app.FUNCTIONALITY import inputValidation
@@ -17,7 +17,7 @@ def loadLogIn(window):
             # storing the values from the entry fields
             condition = inputValidation.loginVal(name, password)
             if condition != True:
-                showinfo('Error', condition['error'])
+                showwarning('Error', condition['error'])
             else:
                 # creating a mysql connection
                 mydb = mysql.connector.connect(host=os.getenv('HOST'), user=os.getenv('USER'), password=os.getenv('PASSWORD'), database="forgepdf")
@@ -29,10 +29,10 @@ def loadLogIn(window):
 
                 # checking if the 'name' exists in the database
                 if result == None:
-                    showinfo('Error', 'Name not found.', icon=WARNING)
+                    showwarning('Error', 'Name not found.')
                 # checking if the 'password' matches the one in the database
                 elif password != result[1]:
-                    showinfo('Error', 'Invalid Password!.', icon=WARNING)
+                    showwarning('Error', 'Invalid Password!.')
                 # else, successfull login
                 else:
                     showinfo('Successfull', 'You have successfully logged in!')
@@ -48,7 +48,7 @@ def loadLogIn(window):
                     home.HomeWindow()
                 mydb.close()
         except:
-            showinfo('Error', 'An error has occurred.')
+            showerror('Error', 'An error has occurred.')
     
     frame=Frame(window,width=1280,height=720,bg='#0b132b')
     frame.place(x=0,y=0)

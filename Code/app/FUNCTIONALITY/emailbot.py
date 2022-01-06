@@ -2,7 +2,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import csv,os
 
-
 def emailbot(toaddress , attachmentPath):#used to send email
     #converting relative path of the attachment to absolute path
     web = webdriver.Chrome()
@@ -73,6 +72,4 @@ def csvToStr(adrresses ,attachmentPath):#function to extract email addresses fro
 
     print(address , attachmentPath)
     emailbot(address , attachmentPath)
-
-# csvToStr('addresss.csv', 'D:/Users/ashis/Desktop/Terror Bull/Miscellanous/Victor_BB_Guide 1_4.pdf')
 

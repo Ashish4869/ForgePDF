@@ -8,6 +8,12 @@ import os
 
 class SavedPdfWindow():
      def __init__(self):
+        # window config
+        window = Tk()
+        window.geometry("1280x720")
+        window.title('ForgePDF | Saved PDFs')
+        window.configure(bg = "#0b132b")
+        center(window)
 
         #Variable to hold the logged user user_id
         uid = [] 
@@ -28,18 +34,6 @@ class SavedPdfWindow():
             window.destroy()
             # call the options up window class
             options.OptionsPdfWindow()
-
-
-        def btn_clicked():
-            print("button clicked")
-
-        
-        window = Tk()
-
-        window.geometry("1280x720")
-        window.title('Saved PDF Page')
-        window.configure(bg = "#0b132b")
-        center(window)
 
 
         canvas = Canvas(
@@ -598,15 +592,11 @@ class SavedPdfWindow():
             #Image if no files are found in database
             NotFoundImage = PhotoImage(file = f"./images/savedpdfs/notFound.png")
             
-            NotFoundLabel = Button(
+            NotFoundLabel = Label(
                 image = NotFoundImage,
-                borderwidth = 0,
-                highlightthickness = 0,
                 background="#0B132B",
-                activebackground="#0B132B",
-                command = btn_clicked,
-                relief = "flat")
-
+                activebackground="#0B132B"
+            )
 
             NotFoundLabel.place(
                 x = 500, y = 300,
@@ -617,4 +607,6 @@ class SavedPdfWindow():
         
         #Additional window config
         window.resizable(False, False)
+        window.iconbitmap('images/logo.ico')
+        window.deiconify()
         window.mainloop()

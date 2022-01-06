@@ -8,6 +8,12 @@ import os
 
 class OptionsPdfWindow():
      def __init__(self):
+        #Window Config
+        window = Tk()
+        window.geometry("1280x720")
+        window.title('ForgePDF | PDF Options')
+        window.configure(bg = "#0b132b")
+        center(window)
 
         #Variable to hold the logged user user_id
         uid = [] 
@@ -18,9 +24,6 @@ class OptionsPdfWindow():
             window.destroy()
             # call the login up window class
             home.HomeWindow()
-
-        def btn_clicked():
-            print("button clicked")
 
         def toEmailPage():
             userDetails.SetSelectedPdfBool()
@@ -43,17 +46,6 @@ class OptionsPdfWindow():
             # call the login up window class
             mergepdf.MergePdfWindow()
 
-
-        
-
-
-        #Window Config
-        window = Tk()
-
-        window.geometry("1280x720")
-        window.title('Options Page')
-        window.configure(bg = "#0b132b")
-        center(window)
 
         #Canvas Config
         canvas = Canvas(
@@ -182,5 +174,7 @@ class OptionsPdfWindow():
 
         #Additional window config
         window.resizable(False, False)
+        window.iconbitmap('images/logo.ico')
+        window.deiconify()
         window.mainloop()
 

@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter.font import families
-from tkinter.messagebox import showinfo, WARNING
+from tkinter.messagebox import showerror, showwarning
 from app import login
 from app import home
 from app.FUNCTIONALITY import emailbot, emailvalidateapi
@@ -11,6 +11,12 @@ import os
 
 class EmailPdfWindow():
     def __init__(self):
+        #Window Config
+        window = Tk()
+        window.geometry("1280x720")
+        window.configure(bg = "#0b132b")
+        window.title('ForgePDF | Email PDF')
+        center(window)
 
         #Variable to hold the attachment and csv address
         attachmentPath = []
@@ -33,7 +39,7 @@ class EmailPdfWindow():
             attachmentPathvar = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
             filename = os.path.basename(attachmentPathvar)
             if len(attachmentPathvar) == 0:
-                showinfo("ERROR" , "Please select a pdf file")
+                showwarning("Error" , "Please select a pdf file")
                 return
 
             #stores attachement in list
@@ -45,14 +51,12 @@ class EmailPdfWindow():
             haveAttachment[0] = True
             showAttachment()
 
-
-
         def ImportCSV():
             #gets csv from user
             csvAddressvar = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("CSV files","*.csv*"),("all files","*.*")))
             filename = os.path.basename(csvAddressvar)
             if len(csvAddressvar) == 0:
-                showinfo("ERROR" , "Please select a csv file")
+                showwarning("Error" , "Please select a csv file")
                 return
 
             #stores csv in list
@@ -65,23 +69,23 @@ class EmailPdfWindow():
 
         
         def SendEmail():
-
+            # exception handling
             try:
                 toaddress = EmailEntry.get()
                 if len(csvAddress) == 0:
                     # check if the email is valid or not
                     condition = emailvalidateapi.getEmailValidate(toaddress)
                     if 'error' in condition:
-                        showinfo("Error", condition['error'])
+                        showwarning("Error", condition['error'])
                         return
                 #checks if the attachment is added or not
                 if len(attachmentPath) == 0:
-                    showinfo("ERROR" , "Please choose an attachment")
+                    showwarning("Error" , "Please choose an attachment")
                     return
 
                 #doesntsend email if there is ambiguity
                 if toaddress != '' and len(csvAddress) != 0 :
-                    showinfo("ERROR" , "Please choose any one way for email receipients.")
+                    showwarning("Error" , "Please choose any one way for email receipients.")
                     EmailEntry.insert('0' , '')
                     return
 
@@ -93,7 +97,8 @@ class EmailPdfWindow():
                 else:
                     emailbot.emailbot(toaddress , attachmentPath[0])
             except:
-                showinfo("ERROR" , "An error has occurred!")
+                # show the error message
+                showerror("Error" , "An error has occurred!")
                 window.destroy()
                 home.HomeWindow()
             
@@ -134,19 +139,6 @@ class EmailPdfWindow():
             x = 702, y = 584,
             width = 536,
             height = 91)
-
-            
-
-
-
-
-        #Window Config
-        window = Tk()
-
-        window.geometry("1280x720")
-        window.configure(bg = "#0b132b")
-        window.title('Email Page')
-        center(window)
 
 
         #Canvas Config
@@ -328,4 +320,6 @@ class EmailPdfWindow():
 
         #Additional window config
         window.resizable(False, False)
+        window.iconbitmap('images/logo.ico')
+        window.deiconify()
         window.mainloop()

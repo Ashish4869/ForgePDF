@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from tkinter.messagebox import showinfo, WARNING
+from tkinter.messagebox import showwarning, showerror
 
 import PyPDF2
 from app.FUNCTIONALITY import merge
@@ -13,6 +13,12 @@ import shutil
 
 class MergePdfWindow():
     def __init__(self):
+        #Window Config
+        window = Tk()
+        window.geometry("1280x720")
+        window.title('ForgePDF | Merge PDF')
+        window.configure(bg = "#0b132b")
+        center(window)
 
         #Variable to store the pdfs selected so far
         pdfstomerge = []
@@ -32,7 +38,7 @@ class MergePdfWindow():
 
             #shows error if the user tries to choose a pdf file after 3 files have already been choosed
             if Pdf1name.get() != '' and Pdf2name.get() != '' and Pdf3name.get() != '':
-                showinfo("ERROR" , "You cannot add more than 3 pdfs to merge, sorry for the inconvenience!")
+                showwarning("Error" , "You cannot add more than 3 pdfs to merge, sorry for the inconvenience!")
                 canget = False
 
             #opens the file box , gets the abs path of the file and appends in list
@@ -40,7 +46,7 @@ class MergePdfWindow():
                 fileaddress = filedialog.askopenfilename(initialdir= os.getenv('MERGE_INITIAL_DIR'), title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
                 print(fileaddress)
                 if len(fileaddress) == 0:
-                    showinfo("ERROR" , "Please select a pdf file")
+                    showwarning("Error" , "Please select a pdf file")
                     return
                 pdfstomerge.append(fileaddress)
                 filename = os.path.basename(fileaddress)
@@ -113,7 +119,7 @@ class MergePdfWindow():
                 #Move the file to specific folder and move one copy to desktop
                 MoveToFolder()
             except:
-                showinfo("ERROR" , "An error has occurred")
+                showerror("Error" , "An error has occurred")
                 window.destroy()
                 home.HomeWindow()
 
@@ -134,16 +140,6 @@ class MergePdfWindow():
         def saveToDB(add):
             executeQuery("insert into files (file_address , user_id) values ('" + add + "',' " + str(userDetails.getUID()) + "')")
 
-
-
-
-        #Window Config
-        window = Tk()
-
-        window.geometry("1280x720")
-        window.title('Merge PDF Page')
-        window.configure(bg = "#0b132b")
-        center(window)
 
         #Canvas Config
         canvas = Canvas(
@@ -259,7 +255,6 @@ class MergePdfWindow():
         Pdf2Label.pack_forget()
 
 
-
         #Pdf3 Config
         Pdf3Image = PhotoImage(file = f"./images/mergepdf/pdf3.png")
         Pdf3Label = Label(
@@ -301,7 +296,6 @@ class MergePdfWindow():
             height = 25)
 
 
-
         #Pdf2 file name Config
         Pdf2nameImage = PhotoImage(file = f"./images/mergepdf/pdf2name.png")
         Pdf2name = canvas.create_image(
@@ -321,7 +315,6 @@ class MergePdfWindow():
             x = 1011, y = 439,
             width = 230,
             height = 26)
-
 
 
         #Pdf3 file name Config
@@ -370,5 +363,7 @@ class MergePdfWindow():
 
         #Additional window config
         window.resizable(False, False)
+        window.iconbitmap('images/logo.ico')
+        window.deiconify()
         window.mainloop()
 

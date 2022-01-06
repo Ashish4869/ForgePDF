@@ -1,8 +1,6 @@
 import PyPDF2
 
 # merge pdf function
-
-
 def merge(pdfList):
     # if no files are entered
     if len(pdfList) == 0:
@@ -29,4 +27,3 @@ def merge(pdfList):
                 file.close()
     newFile.close()
     return "Files Got Merged!!"
-

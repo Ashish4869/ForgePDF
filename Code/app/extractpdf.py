@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter.messagebox import showinfo
+from tkinter.messagebox import showwarning, showerror
 from tkinter import filedialog
 from app import home
 from app.common import center
@@ -7,6 +7,14 @@ import os, shutil
 from app.FUNCTIONALITY import extract, inputValidation
 class extractWindow():
     def __init__(self):
+        #Window Config
+        window = Tk()
+        window.geometry("1280x720")
+        window.title('ForgePDF | Extract PDF')
+        center(window)
+        window.configure(bg = "#0b132b")
+        
+        # variable to store the pdf to extract
         self.pdfToExtract = ''
 
         #Button Functions
@@ -18,12 +26,12 @@ class extractWindow():
 
         def getPDF():
             if self.pdfToExtract != '':
-                showinfo("ERROR" , "You can encrypt only one pdf at a time")
+                showwarning("Error" , "You can extract only one pdf at a time")
                 return
             attachmentPathvar = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
             filename = os.path.basename(attachmentPathvar)
             if len(attachmentPathvar) == 0:
-                showinfo("ERROR" , "Please select a pdf file")
+                showwarning("Error" , "Please select a pdf file")
                 return
             PDFTextBoxEntry.insert('0' , filename)
             PDFTextBoxEntry.bind("<Key>", lambda e: "break")
@@ -34,11 +42,11 @@ class extractWindow():
             try:
                 condition = inputValidation.extractVal(self.pdfToExtract)
                 if condition != True:
-                    showinfo('Error', condition['error'])
+                    showwarning('Error', condition['error'])
                 else:
                     isEmpty = extract.extract(self.pdfToExtract)
                     if isEmpty:
-                        showinfo('Error', 'Could not extract text from this pdf')
+                        showerror('Error', 'Could not extract text from this pdf')
                         # if the extracted textfile is empty, go back to home frame
                         window.destroy()
                         home.HomeWindow()    
@@ -46,7 +54,7 @@ class extractWindow():
                         MoveToDesktop()
                         showExtractedMessage()
             except:
-                showinfo("ERROR" , "An error has occurred!")
+                showerror("Error" , "An error has occurred!")
                 window.destroy()
                 home.HomeWindow()
 
@@ -84,15 +92,6 @@ class extractWindow():
             width = 224,
             height = 48)
 
-
-
-        #Window Config
-        window = Tk()
-
-        window.geometry("1280x720")
-        window.title('Extract PDF Page')
-        center(window)
-        window.configure(bg = "#0b132b")
 
         #Creating a Canvas
         canvas = Canvas(
@@ -202,5 +201,8 @@ class extractWindow():
         PdfImageIcon.pack()
         PdfImageIcon.pack_forget()
 
+        # additional config
         window.resizable(False, False)
+        window.iconbitmap('images/logo.ico')
+        window.deiconify()
         window.mainloop()

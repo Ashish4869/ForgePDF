@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from tkinter.messagebox import showinfo, WARNING
+from tkinter.messagebox import showwarning, showerror
 from app.FUNCTIONALITY import splitter, inputValidation
 from app import login
 from app import home
@@ -10,7 +10,12 @@ from app.common import center, executeQuery
 
 class SplitPdfWIndow():
     def __init__(self):
-
+        #Window Config
+        window = Tk()
+        window.geometry("1280x720")
+        window.title('ForgePDF | Split PDF')
+        center(window)
+        window.configure(bg = "#0b132b")
 
         #Variable to hold the address of the pdf to be split
         PdfToSplit = []
@@ -23,15 +28,12 @@ class SplitPdfWIndow():
             window.destroy()
             # call the login up window class
             home.HomeWindow()
-
-        def btn_clicked():
-            print("ButtonClicked")
         
 
         #gets the pdf the split
         def getPdf():
             if len(PdfToSplit) != 0:
-                showinfo("ERROR" , "You can split only one pdf at a time")
+                showwarning("Error" , "You can split only one pdf at a time")
                 return
 
             #gets attachement from user
@@ -39,7 +41,7 @@ class SplitPdfWIndow():
             filename = os.path.basename(attachmentPathvar)
 
             if len(attachmentPathvar) == 0:
-                showinfo("ERROR" , "Please select a pdf file")
+                showwarning("Error" , "Please select a pdf file")
                 return
             
             #stores attachement in list
@@ -61,7 +63,7 @@ class SplitPdfWIndow():
                 condition = inputValidation.splitVal(startRange, endRange)
                 print(condition)
                 if condition != True:
-                    showinfo('Error', condition['error'])
+                    showwarning('Error', condition['error'])
                 else:
                     showPdfSplitMessage()
                     startRan = int(startRange)
@@ -71,7 +73,7 @@ class SplitPdfWIndow():
                     #Move the file to specific folder and move one copy to desktop
                     MoveToFolder()
             except:
-                showinfo("ERROR" , "An error has occurred!")
+                showerror("Error" , "An error has occurred!")
                 window.destroy()
                 home.HomeWindow()
 
@@ -90,9 +92,7 @@ class SplitPdfWIndow():
         
         #Store the value in database
         def saveToDB(add):
-            executeQuery("insert into files (file_address , user_id) values ('" + add + "',' " + str(userDetails.getUID()) + "')")
-
-                
+            executeQuery("insert into files (file_address , user_id) values ('" + add + "',' " + str(userDetails.getUID()) + "')")  
 
        
         #shows the selected pdf along with the name
@@ -119,7 +119,6 @@ class SplitPdfWIndow():
                 PdfToSplit.append(userDetails.getSelectPdf())
 
 
-
         #shows the message that pdf is split
         def showPdfSplitMessage():
             SplitPdfSubmitButton.pack_forget()
@@ -129,17 +128,6 @@ class SplitPdfWIndow():
             x = 1022, y = 604,
             width = 206,
             height = 46)
-
-
-
-        window = Tk()
-
-        #Window Config
-        window.geometry("1280x720")
-        window.title('Split PDF Page')
-        center(window)
-        window.configure(bg = "#0b132b")
-
 
 
         #Canvas Config
@@ -178,7 +166,6 @@ class SplitPdfWIndow():
             height = 100)
 
 
-
         #BackButton Config
         BackButtonImage = PhotoImage(file = f"./images/splitpdf/BackButton.png")
         BackButton = Button(
@@ -211,7 +198,6 @@ class SplitPdfWIndow():
             x = 1022, y = 604,
             width = 206,
             height = 46)
-
 
 
         #Starting Range Entry Config
@@ -287,7 +273,6 @@ class SplitPdfWIndow():
         PdfSplitLabel.pack_forget()
 
 
-
         #PdfImage Config
         PdfImage = PhotoImage(file = f"./images/splitpdf/pdfImage.png")
         PdfImageIcon = Label(
@@ -304,6 +289,8 @@ class SplitPdfWIndow():
         if userDetails.GetselectedPdfBool() == True:
             showSplitPdf()
 
-
+        # additional window config
         window.resizable(False, False)
+        window.iconbitmap('images/logo.ico')
+        window.deiconify()
         window.mainloop()

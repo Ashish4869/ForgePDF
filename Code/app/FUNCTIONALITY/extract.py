@@ -1,13 +1,13 @@
 import PyPDF2
 
-def extract(file):#function to extract text from pdf file copy it to a txt file
-    
+#function to extract text from pdf file copy it to a txt file
+def extract(file):
     #opening the pdf and text files
     pdf = open(file, 'rb')
     tf=open('output.txt','wt')
 
+    # creating an pages variables and assigning it to an empty string
     Pages=''
-
 
     #pdf reader obj
     pdfReader = PyPDF2.PdfFileReader(pdf)
@@ -26,9 +26,8 @@ def extract(file):#function to extract text from pdf file copy it to a txt file
     tf.close()
     pdf.close()
 
-    if Pages.strip()=='':#checking if the text is empty
+    #checking if the text is empty
+    if Pages.strip()=='':
         return True
     else:
         return False 
-
-# extract('3.pdf')

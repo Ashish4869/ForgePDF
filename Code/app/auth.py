@@ -6,11 +6,12 @@ from app.FUNCTIONALITY import weatherapi
 
 class AuthWindow():
     def __init__(self):
+        # window configuration
         window = Tk()
         window.geometry("1280x720")
-        window.title('Auth Page')
-        center(window)
+        window.title('ForgePDF')
         window.configure(bg = "#0b132b")
+        center(window)
 
         # calling the weather api and storing the JSON object in tthe json file
         weatherapi.getWeatherData()
@@ -19,4 +20,6 @@ class AuthWindow():
         loadLogIn(window)
         # Additional window config
         window.resizable(False, False)
+        window.iconbitmap('images/logo.ico')
+        window.deiconify()
         window.mainloop()

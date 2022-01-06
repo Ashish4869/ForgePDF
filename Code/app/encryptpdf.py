@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from tkinter.messagebox import showinfo
+from tkinter.messagebox import showwarning, showerror
 from app import home
 from app.common import center, executeQuery
 import os, shutil
@@ -9,6 +9,14 @@ from app.FUNCTIONALITY import encrypt, inputValidation
 
 class encryptWindow():
     def __init__(self):
+        #Window Config
+        window = Tk()
+        window.geometry("1280x720")
+        window.title('ForgePDF | Encrypt PDF')
+        center(window)
+        window.configure(bg = "#0b132b")
+
+        # variable to store the pdf to encrypt
         self.pdfToEncrypt = ''
 
         #Button Functions
@@ -22,13 +30,13 @@ class encryptWindow():
         #gets the pdf to encrypt
         def getPdf():
             if self.pdfToEncrypt != '':
-                showinfo("ERROR" , "You can encrypt only one pdf at a time")
+                showwarning("Error" , "You can encrypt only one pdf at a time")
                 return
             #gets attachement from user
             attachmentPathvar = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
             filename = os.path.basename(attachmentPathvar)
             if len(attachmentPathvar) == 0:
-                showinfo("ERROR" , "Please select a pdf file")
+                showwarning("Error" , "Please select a pdf file")
                 return
             #adds the value in the textbox and displays it
             PDFTextBoxEntry.insert('0' , filename)
@@ -44,17 +52,16 @@ class encryptWindow():
             try:
                 condition = inputValidation.encryptVal(new_password)
                 if condition != True:
-                    showinfo('Error', condition['error'])
+                    showwarning('Error', condition['error'])
                 else:
                     encrypt.encrypt(self.pdfToEncrypt, new_password)
                     showPdfEncryptMessage()
                     MoveToFolder()
             except:
-                showinfo("ERROR" , "An error has occurred!")
+                showerror("Error" , "An error has occurred!")
                 window.destroy()
                 home.HomeWindow()
 
-        
 
         #Moves the files to a specific directory and copies to desktop
         def MoveToFolder():
@@ -102,17 +109,6 @@ class encryptWindow():
             height = 46)
 
 
-
-        window = Tk()
-
-        #Window Config
-        window.geometry("1280x720")
-        window.title('Encrypted Page')
-        center(window)
-        window.configure(bg = "#0b132b")
-
-
-
         #Canvas Config
         canvas = Canvas(
             window,
@@ -149,7 +145,6 @@ class encryptWindow():
             height = 100)
 
 
-
         #BackButton Config
         BackButtonImage = PhotoImage(file = f"./images/encryptpdf/BackButton.png")
         BackButton = Button(
@@ -183,9 +178,6 @@ class encryptWindow():
             width = 206,
             height = 46)
 
-
-
-        
 
         #Ending Range Entry Config
         passwordEntryImage = PhotoImage(file = f"./images/encryptpdf/TextBox.png")
@@ -240,7 +232,6 @@ class encryptWindow():
         PdfEncryptLabel.pack_forget()
 
 
-
         #PdfImage Config
         PdfImage = PhotoImage(file = f"./images/encryptpdf/pdfImage.png")
         PdfImageIcon = Label(
@@ -253,6 +244,8 @@ class encryptWindow():
         PdfImageIcon.pack()
         PdfImageIcon.pack_forget()
 
-
+        # additional config
         window.resizable(False, False)
+        window.iconbitmap('images/logo.ico')
+        window.deiconify()
         window.mainloop()

@@ -1,8 +1,7 @@
 import PyPDF2,os.path   
 
-def spliter(start,end, file):# funtion to split
-
-
+# funtion to split pdf file into multiple pdf files
+def spliter(start,end, file):
     #opening the input and output pdf files
     pdfFile=open(file,'rb')
     outputFile=open('output.pdf','wb')
@@ -22,5 +21,3 @@ def spliter(start,end, file):# funtion to split
     #closing the pdfs 
     outputFile.close()
     pdfFile.close()
-
-# spliter(100,200, 'C:/Users/User/Desktop/Automate_the_Boring_Stuff_with_Python_Practical_Programming_for.pdf')

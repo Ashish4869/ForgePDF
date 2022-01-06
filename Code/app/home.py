@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from tkinter.messagebox import showinfo
+from tkinter.messagebox import showerror
 from tkinter.font import BOLD
 from app import auth, options, extractpdf, encryptpdf, splitPdf, Scrapy, emailpdf, mergepdf, savedpdfs, decryptpdf
 from app.User import userDetails
@@ -12,6 +12,12 @@ import datetime
 
 class HomeWindow():
     def __init__(self):
+        # Window config
+        window = Tk()
+        window.geometry("1280x720")
+        window.title('ForgePDF | Home') 
+        center(window)
+        window.configure(bg = "#0b132b")
 
         #variables that holds current UID
         uid = []
@@ -83,35 +89,12 @@ class HomeWindow():
             window.destroy()
             # call the options up window class
             options.OptionsPdfWindow()
-
-
-        #Testing conditional rendering and file open
-        # def showfile1():
-        #     filename = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
-        #     print(filename)
-
-        #     File1Button.pack()
-
-        #     File1Button.place(
-        #     x = 1057, y = 207,
-        #     width = 156,
-        #     height = 132)
-            
-
-
         
-
-        # Window config
-        window = Tk()
-        window.geometry("1280x720")
-        window.title('Home Page')
-        center(window)
-        window.configure(bg = "#0b132b")
 
         # calling the weather api and storing the object in the variable weatherData
         weatherData=weatherapi.loadWeatherData()
         if 'error' in weatherData:
-            showinfo('ERROR', weatherData['error'])
+            showerror('Error', weatherData['error'])
             window.destroy()
         print(weatherData)
 
@@ -307,11 +290,10 @@ class HomeWindow():
         SunnyImage = PhotoImage(file = f"./images/home/SunnyImage.png")
         CloudyImage = PhotoImage(file = f"./images/home/CloudyImage.png")
         RainyImage = PhotoImage(file = f"./images/home/RainyImage.png")
-        WeatherImageButton = Button(
-            borderwidth = 0,
+        WeatherImageButton = Label(
             bg="#0B132B",
-            highlightthickness = 0,
-            relief = "flat")
+            activebackground="#0B132B"
+        )
 
         # setting the image for the button based on the description
         if weatherData['description'] == "clear sky":
@@ -596,13 +578,11 @@ class HomeWindow():
             # Image for 3rd most recent Pdf in database
             NotFoundImage = PhotoImage(file = f"./images/home/notFound.png")
             
-            NotFoundLabel = Button(
+            NotFoundLabel = Label(
                 image = NotFoundImage,
-                borderwidth = 0,
-                highlightthickness = 0,
                 background="#1C2541",
-                activebackground="#1C2541",
-                relief = "flat")
+                activebackground="#1C2541"
+            )
 
 
             NotFoundLabel.place(
@@ -611,7 +591,9 @@ class HomeWindow():
                 height = 231)
 
         
-
+        # additional config
         window.resizable(False, False)
+        window.iconbitmap('images/logo.ico')
+        window.deiconify()
         window.mainloop()
     

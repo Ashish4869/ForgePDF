@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from tkinter.messagebox import showinfo
+from tkinter.messagebox import showwarning, showerror
 from app import home
 from app.User import userDetails
 from app.FUNCTIONALITY import decrypt, inputValidation
@@ -9,6 +9,14 @@ import os, shutil
 
 class decryptWindow():
     def __init__(self):
+        #Window Config
+        window = Tk()
+        window.geometry("1280x720")
+        window.title('ForgePDF | Decrypt PDF')
+        center(window)
+        window.configure(bg = "#0b132b")
+        
+        # variable to store the pdf to decrypt
         self.pdfToDecrypt = ''
 
         #Button Functions
@@ -21,13 +29,13 @@ class decryptWindow():
         #gets the pdf to decrypt
         def getPdf():
             if self.pdfToDecrypt != '':
-                showinfo("ERROR" , "You can encrypt only one pdf at a time")
+                showwarning("Error" , "You can decrypt only one pdf at a time")
                 return
             #gets attachement from user
             attachmentPathvar = filedialog.askopenfilename(initialdir= "D:\\Users\\ashis\\Desktop", title="Select a file" , filetypes=(("Pdf files","*.pdf*"),("all files","*.*")))
             filename = os.path.basename(attachmentPathvar)
             if len(attachmentPathvar) == 0:
-                showinfo("ERROR" , "Please select a pdf file")
+                showwarning("Error" , "Please select a pdf file")
                 return
             #adds the value in the textbox and displays it
             PDFTextBoxEntry.insert('0' , filename)
@@ -46,17 +54,17 @@ class decryptWindow():
             try:
                 condition = inputValidation.decryptVal(new_password)
                 if condition != True:
-                    showinfo('Error', condition['error'])
+                    showwarning('Error', condition['error'])
                 else:
                     condition = decrypt.decrypt(self.pdfToDecrypt, new_password)
                     if condition == False:
-                        showinfo("Error", "Please enter the correct password!")
+                        showwarning("Error", "Please enter the correct password!")
                         return 
                     showPdfDecryptMessage()
                     MoveToFolder()
             except Exception as e:
                 print(e)
-                showinfo("ERROR" , "An error has occurred!")
+                showerror("Error" , "An error has occurred!")
                 window.destroy()
                 home.HomeWindow()
 
@@ -105,17 +113,6 @@ class decryptWindow():
             height = 46)
 
 
-
-        window = Tk()
-
-        #Window Config
-        window.geometry("1280x720")
-        window.title('Decrypt Pdf')
-        center(window)
-        window.configure(bg = "#0b132b")
-
-
-
         #Canvas Config
         canvas = Canvas(
             window,
@@ -152,7 +149,6 @@ class decryptWindow():
             height = 100)
 
 
-
         #BackButton Config
         BackButtonImage = PhotoImage(file = f"./images/decryptpdf/BackButton.png")
         BackButton = Button(
@@ -187,11 +183,8 @@ class decryptWindow():
             height = 46)
 
 
-
-        
-
         #Ending Range Entry Config
-        passwordEntryImage = PhotoImage(file = f"./images/encryptpdf/TextBox.png")
+        passwordEntryImage = PhotoImage(file = f"./images/decryptpdf/TextBox.png")
         PasswordEntryCanvasImage = canvas.create_image(
             1124.0, 443.0,
             image = passwordEntryImage)
@@ -243,7 +236,6 @@ class decryptWindow():
         PdfDecryptLabel.pack_forget()
 
 
-
         #PdfImage Config
         PdfImage = PhotoImage(file = f"./images/decryptpdf/pdfImage.png")
         PdfImageIcon = Label(
@@ -256,6 +248,8 @@ class decryptWindow():
         PdfImageIcon.pack()
         PdfImageIcon.pack_forget()
 
-
+        # additional window config
         window.resizable(False, False)
+        window.iconbitmap('images/logo.ico')
+        window.deiconify()
         window.mainloop()

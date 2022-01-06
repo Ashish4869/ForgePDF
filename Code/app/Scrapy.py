@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter.messagebox import showinfo, WARNING
+from tkinter.messagebox import showwarning, showerror
 from app import login , home
 from app.FUNCTIONALITY import scrapping, inputValidation
 from app.common import center
@@ -7,6 +7,13 @@ import threading, shutil
 
 class ScrapyWindow  ():
     def __init__(self):
+        #Window config
+        window = Tk()
+        window.geometry("1280x720")
+        window.title('ForgePDF | Scrapy')
+        center(window)
+        window.configure(bg = "#0b132b")
+
         #Button Functions
         def toHomePage():
             # destroy the current window instance (LogInWindow)
@@ -22,11 +29,11 @@ class ScrapyWindow  ():
 
                 condition = inputValidation.scrappyVal(new_item)
                 if condition != True:
-                    showinfo('Error', condition['error'])
+                    showwarning('Error', condition['error'])
                 else:
                     handleThread()
             except:
-                showinfo("ERROR" , "An error has occurred!")
+                showerror("Error" , "An error has occurred!")
                 window.destroy()
                 home.HomeWindow()
         
@@ -48,9 +55,6 @@ class ScrapyWindow  ():
                 MoveToDesktop()
 
 
-        def btn_clicked():
-            print("ButtonClicked")
-
         #Shows the loading label when the button is pressed
         def showLoading():
             # ScrapItButton.pack_forget()
@@ -70,17 +74,6 @@ class ScrapyWindow  ():
             height = 100)
 
             
-
-
-
-        #Window config
-        window = Tk()
-
-        window.geometry("1280x720")
-        window.title('Scrapy Page')
-        center(window)
-        window.configure(bg = "#0b132b")
-
         #Canvas Config
         canvas = Canvas(
             window,
@@ -91,7 +84,6 @@ class ScrapyWindow  ():
             highlightthickness = 0,
             relief = "ridge")
         canvas.place(x = 0, y = 0)
-
 
 
         #Scrapy Background config
@@ -117,8 +109,6 @@ class ScrapyWindow  ():
             x = 362, y = 557,
             width = 536,
             height = 100)
-
-
         
 
         #Loading Image Config
@@ -197,5 +187,8 @@ class ScrapyWindow  ():
             width = 715,
             height = 61)
 
+        # additional window config
         window.resizable(False, False)
+        window.iconbitmap('images/logo.ico')
+        window.deiconify()
         window.mainloop()

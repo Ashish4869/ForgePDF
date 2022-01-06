@@ -10,10 +10,13 @@ def decrypt(file,password):#function to the Pdf file decrypt
     pdfReader = PyPDF2.PdfFileReader(efile)
     pdfWriter = PyPDF2.PdfFileWriter()
 
-    #decrypting the Pdf file
+    #decrypting the Pdf file and storing the condition
+    # the condition is 1 if the password is correct
+    # and 0 if the password is incorrect
+    # also, if it's 0 it creates a corrupted file which needs to be blocked
     condition = pdfReader.decrypt(password)
+    # here we control that condition
     if condition == 0:
-        print('u faked up')
         efile.close()
         defile.close()
         return False
@@ -31,6 +34,5 @@ def decrypt(file,password):#function to the Pdf file decrypt
     efile.close()
     defile.close()
 
+    # returning true if the pdf was succesfully decrypted
     return True
-
-# decrypt('encrypted.pdf','lol')
