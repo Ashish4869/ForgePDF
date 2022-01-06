@@ -48,9 +48,12 @@ class decryptWindow():
                 if condition != True:
                     showinfo('Error', condition['error'])
                 else:
-                    condition = decrypt.decrypt(self.pdfToDecrypt, new_password)
+                    condition,message = decrypt.decrypt(self.pdfToDecrypt, new_password)
                     if condition == False:
-                        showinfo("Error", "Please enter the correct password!")
+                        showinfo("Error", message)
+                        if message == 'This pdf is NOT Encrypted!':
+                            window.destroy()
+                            home.HomeWindow()
                         return 
                     showPdfDecryptMessage()
                     MoveToFolder()

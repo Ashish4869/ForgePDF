@@ -9,14 +9,20 @@ def decrypt(file,password):#function to the Pdf file decrypt
     #the reader and writer objects
     pdfReader = PyPDF2.PdfFileReader(efile)
     pdfWriter = PyPDF2.PdfFileWriter()
-
     #decrypting the Pdf file
+    condition = pdfReader.isEncrypted
+    if condition == 0:
+        print('u faked up')
+        efile.close()
+        defile.close()
+        return False , 'This pdf is NOT Encrypted!'
+
     condition = pdfReader.decrypt(password)
     if condition == 0:
         print('u faked up')
         efile.close()
         defile.close()
-        return False
+        return False , 'Please enter the correct password!'
     
     
     #copying the pages from the encrypted file to the writer object
@@ -31,6 +37,6 @@ def decrypt(file,password):#function to the Pdf file decrypt
     efile.close()
     defile.close()
 
-    return True
+    return True,''
 
 # decrypt('encrypted.pdf','lol')

@@ -16,19 +16,19 @@ def emailbot(toaddress , attachmentPath):#used to send email
     email.send_keys(os.getenv('SELENIUM_EMAIL')+ Keys.ENTER)    
     
     #waiting for the password page to load
-    web.implicitly_wait(5)
+    web.implicitly_wait(500)
 
     #getting the password textbox and inserting the password in it
     pwd=web.find_element_by_xpath('/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div[1]/div/div/div/div/div[1]/div/div[1]/input')
     pwd.send_keys(os.getenv('SELENIUM_PASSWORD')+ Keys.ENTER)  
 
     #waiting for the page to load
-    web.implicitly_wait(100)
+    web.implicitly_wait(500)
 
     #pressing the compose button to create a new email
     web.find_element_by_xpath('/html/body/div[7]/div[3]/div/div[2]/div[1]/div[1]/div[1]/div/div/div/div[1]/div/div').click()
     
-    web.implicitly_wait(30)
+    web.implicitly_wait(500)
     
     #getting the  to textbox and inserting the to email address in it
     toadd=web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/form/div[1]/table/tbody/tr[1]/td[2]/div/div/textarea')
@@ -45,13 +45,13 @@ def emailbot(toaddress , attachmentPath):#used to send email
 
     print("Added attachment")
     
-    web.implicitly_wait(30)
+    web.implicitly_wait(500)
 
     #finding the send button and clicking it to send the email
     web.find_element_by_xpath('/html/body/div[23]/div/div/div/div[1]/div[3]/div[1]/div[1]/div/div/div/div[3]/div/div/div[4]/table/tbody/tr/td[2]/table/tbody/tr[2]/td/div/div/div[4]/table/tbody/tr/td[1]/div/div[2]/div[1]').click()  
     
     #waiting for the message sent popup
-    web.implicitly_wait(30)
+    web.implicitly_wait(500)
 
     #checking for the message sent popup
     web.find_element_by_xpath('/html/body/div[7]/div[3]/div/div[1]/div[4]/div[1]/div/div[3]/div/div/div[2]/span/span[2]/span[2]')
