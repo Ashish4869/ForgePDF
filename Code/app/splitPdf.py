@@ -65,15 +65,23 @@ class SplitPdfWIndow():
                 if condition != True:
                     showwarning('Error', condition['error'])
                 else:
-                    showPdfSplitMessage()
+                   
                     startRan = int(startRange)
                     endRan = int(endRange)
 
-                    splitter.spliter(startRan , endRan , PdfToSplit[0])
-                    #Move the file to specific folder and move one copy to desktop
-                    MoveToFolder()
-            except:
-                showerror("Error" , "An error has occurred!")
+                    #checking if we got exception in page ranges
+                    condition = splitter.spliter(startRan , endRan , PdfToSplit[0])
+                    if condition == False:
+                        showwarning("Error" , "Please add the pages numbers within the range of the pdf.")
+                        return
+                    else:    
+                        showPdfSplitMessage()
+                        
+                        #Move the file to specific folder and move one copy to desktop
+                        MoveToFolder()
+            except Exception as e:
+                print(e)
+                showwarning("ERROR" , "An error has occurred!")
                 window.destroy()
                 home.HomeWindow()
 

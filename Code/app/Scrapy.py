@@ -45,7 +45,7 @@ class ScrapyWindow  ():
         def handleThread():
             threading.Timer(0.1, ScrapIt).start()
             threading.Timer(0.1, showLoading).start()
-            threading.Timer(5.0, showDone).start()
+            threading.Timer(10.0, showDone).start()
 
         def ScrapIt():
             itemToScrap = InputEntry.get()
