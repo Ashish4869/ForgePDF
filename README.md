@@ -1,2 +1,2 @@
-# Python_Project
+# ForgePDF
 Python project for "Application Development with Python"
