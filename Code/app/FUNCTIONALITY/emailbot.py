@@ -66,7 +66,9 @@ def csvToStr(adrresses ,attachmentPath):#function to extract email addresses fro
     address =''
     file= open(adrresses)
     eaddr=list(csv.reader(file))
-    for i in range(len(eaddr)+1):
+    print(eaddr)
+    for i in range(len(eaddr[0])):
+        print(eaddr[0][i])
         address+=eaddr[0][i]+','
     # return address
 
