@@ -8,7 +8,7 @@ Open the folder `Code` and run the `run.sh` file in command line or git bash and
 
 ### Python
 To install all the dependencies 
-run the cmd
+run the cmd and run the command - 
 pip install -r requirements.txt
 
 ### Database
