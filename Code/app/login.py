@@ -26,6 +26,7 @@ def loadLogIn(window):
                 mycursor.execute("select name, password, user_id from users where name='" + name + "'")
                 # selecting only the first row from the fetched data
                 result = mycursor.fetchone()
+                print(result)
 
                 # checking if the 'name' exists in the database
                 if result == None:
@@ -47,8 +48,10 @@ def loadLogIn(window):
                     # call the Home window class
                     home.HomeWindow()
                 mydb.close()
-        except:
+        except Exception as e:
+            print(e)
             showerror('Error', 'An error has occurred.')
+            
     
     frame=Frame(window,width=1280,height=720,bg='#0b132b')
     frame.place(x=0,y=0)
