@@ -36,7 +36,7 @@ def loadLogIn(window):
                     showwarning('Error', 'Invalid Password!.')
                 # else, successfull login
                 else:
-                    showinfo('Successfull', 'You have successfully logged in!')
+                    #showinfo('Successfull', 'You have successfully logged in!')
                         # destroy the current window instance (SignUpWindow)
                     
                     #Stores the UID in a py file
@@ -183,3 +183,7 @@ def loadLogIn(window):
         x = 263, y = 462,
         width = 381,
         height = 40)
+
+
+    #load home page with hardcoded user
+    SubmitDetails('Ashish Kishore' , 'akk')
